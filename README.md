@@ -1,5 +1,5 @@
 # platform-parent
-##针对手游的一套平台框架  
+## 针对手游的一套平台框架
 大概目录介绍： 
   
 admin 是平台的GM工具后台，主要给运营针对游戏配置一些活动，和给玩家发送邮件奖励等等。  
@@ -13,6 +13,8 @@ platform-activity/game/billing/user 具体服务功能的实现
   
 platform-web 对外接口，用于跟客户端打交道，提供给客户端功能。  
   
-##大致框架  
+## 大致框架  
 SpringMVC + dubbo + zookeeper  
 mysql + redis  
+  
+项目还在完善中，会不断更新。。。
