@@ -13,8 +13,11 @@ platform-activity/game/billing/user 具体服务功能的实现
   
 platform-web 对外接口，用于跟客户端打交道，提供给客户端功能。  
   
-## 大致框架  
-SpringMVC + dubbo + zookeeper  
-mysql + redis  
+## 大致框架  
+平台服务 SpringMVC + dubbo + zookeeper 
+
+GM工具前端 AngularJS + Bootstrap  
+
+mysql + redis  
   
 项目还在完善中，会不断更新。。。
