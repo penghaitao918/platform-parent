@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.admin.server.system.dao.DataDictionaryMapper">
+
+
+    <resultMap type="com.fanfandou.admin.api.system.entity.DataDictionary" id="dataDictionaryMapper">
+        <id property="id" column="id"/>
+        <result property="dictionaryName" column="dictionary_name"/>
+        <result property="itemJson" column="item_json"/>
+        <result property="createTime" column="create_time"/>
+        <result property="gameId" column="game_id"/>
+        <result property="siteId" column="site_id"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="dataDictionaryMapper">
+		select * from sys_data_dictionary order by id DESC
+	</select>
+
+    <select id="getByRes" resultMap="dataDictionaryMapper"
+            parameterType="com.fanfandou.admin.api.system.entity.DataDictionary">
+        select * from sys_data_dictionary WHERE  game_id = #{gameId,jdbcType=INTEGER}  and site_id = #{siteId,jdbcType=INTEGER} order by id DESC
+    </select>
+
+    <select id="selById" resultMap="dataDictionaryMapper"  parameterType="com.fanfandou.admin.api.system.entity.DataDictionary">
+		select * from sys_data_dictionary where dictionary_name=#{dictionaryName,jdbcType=VARCHAR} and game_id = #{gameId,jdbcType=INTEGER}  and site_id = #{siteId,jdbcType=INTEGER}
+	</select>
+
+    <update id="update" parameterType="com.fanfandou.admin.api.system.entity.DataDictionary">
+		update sys_data_dictionary set
+		dictionary_name = #{dictionaryName},
+		item_json=#{itemJson},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		game_id=#{gameId},
+		site_id=#{siteId}
+		where dictionary_name = #{dictionaryName}
+	</update>
+
+    <insert id="insert" parameterType="com.fanfandou.admin.api.system.entity.DataDictionary">
+		insert into sys_data_dictionary (dictionary_name,item_json,create_time,game_id,site_id)
+		values(#{dictionaryName},#{itemJson},#{createTime,jdbcType=TIMESTAMP},#{gameId},#{siteId})
+	</insert>
+
+    <delete id="deleteById">
+		delete from sys_data_dictionary where dictionary_name = #{dictionaryName,jdbcType=VARCHAR}
+	</delete>
+
+
+</mapper>

@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.admin.operation.dao.ApproveMapper">
+
+    <resultMap type="com.fanfandou.admin.operation.entity.Approve" id="approveMapper">
+        <id property="id" column="id"/>
+        <result property="applyUser" column="apply_user"/>
+        <result property="applyTime" column="apply_time"/>
+        <result property="approvalUser" column="approval_user"/>
+        <result property="approvalTime" column="approval_time"/>
+        <result property="approvalStatus" column="approval_status"/>
+        <result property="approvalContent" column="approval_content"/>
+        <association property="mailOrder" javaType="com.fanfandou.admin.operation.entity.MailOrder">
+            <id property="id" column="mail_order_id"/>
+            <result property="gameId" column="game_id"/>
+            <result property="areaIds" column="area_ids"/>
+            <result property="sendByValue" column="send_by_value"/>
+            <result property="sendType" column="send_type"/>
+            <result property="sendByType" column="send_by_type"/>
+            <result property="sendStatus" column="send_status"/>
+            <result property="mailType" column="mail_type"/>
+            <result property="mailTitle" column="mail_title"/>
+            <result property="mailContent" column="mail_content"/>
+            <result property="applyReason" column="apply_reason"/>
+            <result property="createTime" column="create_time"/>
+            <result property="itemJson" column="item_json"/>
+        </association>
+    </resultMap>
+
+    <select id="selectAll" resultMap="approveMapper">
+		<![CDATA[
+
+
+
+
+
+
+
+
+                select * from game_approve a,game_mail_order m
+                where a.mail_order_id = m.id
+
+
+
+
+
+
+
+
+        ]]>
+	</select>
+
+    <select id="selectCountByMid" resultType="int" parameterType="java.util.Map">
+
+
+        select COUNT(*) from game_approve a,game_mail_order m
+        where a.mail_order_id = m.id
+        <if test="sendStatus != 0">and m.send_status =#{sendStatus}</if>
+        <if test="approvalStatus != 0">and a.approval_status=#{approvalStatus}</if>
+
+
+    </select>
+
+    <select id="getMailOrder" parameterType="int" resultType="com.fanfandou.admin.operation.entity.MailOrder">
+		<![CDATA[
+
+
+
+
+
+
+
+
+                select * from game_mail_order where id = #{id}
+
+
+
+
+
+
+
+
+        ]]>
+	</select>
+
+    <delete id="delete" parameterType="int">
+		<![CDATA[
+
+
+
+
+
+
+
+
+		    delete from game_approve where id = #{id}
+
+
+
+
+
+
+
+
+        ]]>
+	</delete>
+
+    <delete id="deleteByOrderId" parameterType="int">
+		<![CDATA[
+
+
+
+
+
+
+
+
+		    delete from game_approve where mail_order_id = #{mailOrderId}
+
+
+
+
+
+
+
+
+        ]]>
+	</delete>
+
+    <select id="selectById" resultMap="approveMapper" parameterType="int">
+		<![CDATA[
+
+
+
+
+
+
+
+
+		   select * from game_approve a,game_mail_order m
+		   where a.id = #{id} and a.mail_order_id = m.id
+
+
+
+
+
+
+
+
+        ]]>
+	</select>
+
+    <select id="selectByOrderId" resultMap="approveMapper" parameterType="int">
+		<![CDATA[
+
+
+
+
+
+
+
+
+		   select * from game_approve a,game_mail_order m
+		   where a.mail_order_id = #{mailOrderId} and a.mail_order_id = m.id
+
+
+
+
+
+
+
+
+        ]]>
+	</select>
+
+    <select id="orderPageList" resultMap="approveMapper" parameterType="java.util.Map">
+
+        SELECT * from game_approve a,game_mail_order m
+        where a.mail_order_id = m.id
+        <if test="gameId != -1">
+            and m.game_id = #{gameId}
+        </if>
+        and m.mail_title like #{mailTitle,jdbcType=VARCHAR}
+        <if test="sendType != 0">
+            and m.send_type = #{sendType,jdbcType=INTEGER}
+        </if>
+        <if test="mailType != 0">
+            and m.mail_type = #{mailType,jdbcType=INTEGER}
+        </if>
+        <if test="sendStatus != 0">
+            and m.send_status = #{sendStatus,jdbcType=INTEGER}
+        </if>
+        <if test="approvalStatus != 0">
+            and a.approval_status = #{approvalStatus,jdbcType=INTEGER}
+        </if>
+        and m.create_time between #{from,jdbcType=TIMESTAMP} and #{to,jdbcType=TIMESTAMP}
+        ORDER BY ${str1} ${str2}
+        limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+
+    </select>
+
+    <select id="approvePageList" resultMap="approveMapper" parameterType="java.util.Map">
+
+        SELECT * from game_approve a,game_mail_order m
+        where a.mail_order_id = m.id
+        <if test="gameId != -1">
+            and m.game_id = #{gameId}
+        </if>
+        and m.mail_title like #{mailTitle,jdbcType=VARCHAR}
+        <if test="sendType != 0">
+            and m.send_type = #{sendType,jdbcType=INTEGER}
+        </if>
+        <if test="mailType != 0">
+            and m.mail_type = #{mailType,jdbcType=INTEGER}
+        </if>
+        <if test="sendStatus != 0">
+            and m.send_status = #{sendStatus,jdbcType=INTEGER}
+        </if>
+        <if test="approvalStatus != 0">
+            and a.approval_status = #{approvalStatus,jdbcType=INTEGER}
+        </if>
+        and a.apply_time between #{from,jdbcType=TIMESTAMP} and #{to,jdbcType=TIMESTAMP}
+        and a.approval_status != 1
+        ORDER BY ${str1} ${str2}
+        limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+
+
+    </select>
+
+    <select id="orderCount" resultType="int" parameterType="java.util.Map">
+
+
+        SELECT COUNT(*) from game_approve a,game_mail_order m
+        where a.mail_order_id = m.id
+        <if test="gameId != 0">
+            and m.game_id = #{gameId}
+        </if>
+        and m.mail_title like #{mailTitle,jdbcType=VARCHAR}
+        <if test="sendType != 0">
+            and m.send_type = #{sendType,jdbcType=INTEGER}
+        </if>
+        <if test="mailType != 0">
+            and m.mail_type = #{mailType,jdbcType=INTEGER}
+        </if>
+        <if test="sendStatus != 0">
+            and m.send_status = #{sendStatus,jdbcType=INTEGER}
+        </if>
+        <if test="approvalStatus != 0">
+            and a.approval_status = #{approvalStatus,jdbcType=INTEGER}
+        </if>
+        and m.create_time between #{from,jdbcType=TIMESTAMP} and #{to,jdbcType=TIMESTAMP}
+
+
+    </select>
+
+    <select id="approveCount" resultType="int" parameterType="java.util.Map">
+
+
+        SELECT COUNT(*) from game_approve a,game_mail_order m
+        where a.mail_order_id = m.id
+        <if test="gameId != 0">
+            and m.game_id = #{gameId}
+        </if>
+        and m.mail_title like #{mailTitle,jdbcType=VARCHAR}
+        <if test="sendType != 0">
+            and m.send_type = #{sendType,jdbcType=INTEGER}
+        </if>
+        <if test="mailType != 0">
+            and m.mail_type = #{mailType,jdbcType=INTEGER}
+        </if>
+        <if test="sendStatus != 0">
+            and m.send_status = #{sendStatus,jdbcType=INTEGER}
+        </if>
+        <if test="approvalStatus != 0">
+            and a.approval_status = #{approvalStatus,jdbcType=INTEGER}
+        </if>
+        and a.apply_time between #{from,jdbcType=TIMESTAMP} and #{to,jdbcType=TIMESTAMP}
+        and a.approval_status != 1
+
+
+    </select>
+
+    <insert id="insert" parameterType="com.fanfandou.admin.operation.entity.Approve" useGeneratedKeys="true"
+            keyProperty="id">
+	    <![CDATA[
+
+
+
+
+
+
+
+
+	     INSERT INTO game_approve (apply_user,apply_time,approval_user,approval_time,
+	     approval_status,approval_content,mail_order_id) VALUES (
+	    #{applyUser},
+		#{applyTime},
+		#{approvalUser},
+		#{approvalTime},
+		#{approvalStatus},
+		#{approvalContent},
+		#{mailOrder.id}
+	)
+
+
+
+
+
+
+
+
+        ]]>
+	</insert>
+
+    <update id="update" parameterType="com.fanfandou.admin.operation.entity.Approve">
+
+         <![CDATA[
+
+
+
+
+
+
+
+
+        UPDATE game_approve SET
+            apply_user = #{applyUser},
+            apply_time = #{applyTime},
+            approval_user = #{approvalUser},
+            approval_time = #{approvalTime},
+            approval_status = #{approvalStatus},
+            approval_content = #{approvalContent},
+            mail_order_id = #{mailOrder.id}
+        WHERE
+            id = #{id,jdbcType=INTEGER}
+
+
+
+
+
+
+
+
+        ]]>
+	</update>
+
+    <update id="updateByOrderId" parameterType="com.fanfandou.admin.operation.entity.Approve">
+
+		<![CDATA[
+
+
+
+
+
+
+
+
+        UPDATE game_approve SET
+            apply_user = #{applyUser},
+            apply_time = #{applyTime},
+            approval_user = #{approvalUser},
+            approval_time = #{approvalTime},
+            approval_status = #{approvalStatus},
+            approval_content = #{approvalContent}
+        WHERE
+            mail_order_id = #{mailOrder.id}
+
+
+
+
+
+
+
+
+        ]]>
+	</update>
+
+</mapper>

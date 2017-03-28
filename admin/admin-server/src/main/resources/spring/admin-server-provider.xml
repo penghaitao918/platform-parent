@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="admin-service" owner="admin"/>
+    <dubbo:monitor protocol="registry" />
+    <dubbo:protocol name="dubbo" port="20991"/>
+    <dubbo:service interface="com.fanfandou.admin.api.operation.service.NoticeService" ref="noticeService"
+                   timeout="30000"/>
+    <dubbo:service interface="com.fanfandou.admin.api.system.service.ResService" ref="resourceService"
+                   timeout="30000"/>
+    <dubbo:service interface="com.fanfandou.admin.api.system.service.DataDictionaryService" ref="dataDictionaryService"
+                   timeout="30000"/>
+    <dubbo:service interface="com.fanfandou.admin.api.operation.service.PatchService" ref="patchService"
+                   timeout="30000"/>
+
+</beans>

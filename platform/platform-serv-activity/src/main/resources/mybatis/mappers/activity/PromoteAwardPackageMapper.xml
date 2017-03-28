@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.platform.serv.activity.dao.PromoteAwardPackageMapper">
+    <resultMap id="BaseResultMap" type="com.fanfandou.platform.api.activity.entity.PromoteAwardPackage">
+        <id column="package_id" property="packageId" jdbcType="INTEGER"/>
+        <result column="package_name" property="packageName" jdbcType="VARCHAR"/>
+        <result column="game_id" property="gameId" jdbcType="INTEGER"/>
+        <result column="promote_category" property="promoteCategory" jdbcType="TINYINT" typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+        <result column="items_package" property="itemsPackage" jdbcType="VARCHAR"/>
+        <result column="package_greet" property="packageGreet" jdbcType="VARCHAR"/>
+        <result column="package_desc" property="packageDesc" jdbcType="VARCHAR"/>
+        <result column="valid_status" property="validStatus" jdbcType="TINYINT"
+                typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+        <result column="create_admin_user_id" property="createAdminUserId" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="create_ip" property="createIp" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    package_id, package_name, game_id, promote_category, items_package, package_greet, 
+    package_desc, valid_status, create_admin_user_id, create_date, create_ip
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.fanfandou.platform.api.activity.entity.PromoteAwardPackageExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from promote_award_package
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from promote_award_package
+        where package_id = #{packageId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from promote_award_package
+    where package_id = #{packageId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.fanfandou.platform.api.activity.entity.PromoteAwardPackage">
+    insert into promote_award_package (package_id, package_name, game_id, 
+      promote_category, items_package, package_greet, 
+      package_desc, valid_status, create_admin_user_id, 
+      create_date, create_ip)
+    values (#{packageId,jdbcType=INTEGER}, #{packageName,jdbcType=VARCHAR}, #{gameId,jdbcType=INTEGER}, 
+      #{promoteCategory,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}, #{itemsPackage,jdbcType=VARCHAR}, #{packageGreet,jdbcType=VARCHAR},
+      #{packageDesc,jdbcType=VARCHAR}, #{validStatus,jdbcType=TINYINT ,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}, #{createAdminUserId,jdbcType=VARCHAR},
+      #{createDate,jdbcType=TIMESTAMP}, #{createIp,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.fanfandou.platform.api.activity.entity.PromoteAwardPackage">
+        insert into promote_award_package
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="packageId != null">
+                package_id,
+            </if>
+            <if test="packageName != null">
+                package_name,
+            </if>
+            <if test="gameId != null">
+                game_id,
+            </if>
+            <if test="promoteCategory != null">
+                promote_category,
+            </if>
+            <if test="itemsPackage != null">
+                items_package,
+            </if>
+            <if test="packageGreet != null">
+                package_greet,
+            </if>
+            <if test="packageDesc != null">
+                package_desc,
+            </if>
+            <if test="validStatus != null">
+                valid_status,
+            </if>
+            <if test="createAdminUserId != null">
+                create_admin_user_id,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="createIp != null">
+                create_ip,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="packageId != null">
+                #{packageId,jdbcType=INTEGER},
+            </if>
+            <if test="packageName != null">
+                #{packageName,jdbcType=VARCHAR},
+            </if>
+            <if test="gameId != null">
+                #{gameId,jdbcType=INTEGER},
+            </if>
+            <if test="promoteCategory != null">
+                #{promoteCategory,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="itemsPackage != null">
+                #{itemsPackage,jdbcType=VARCHAR},
+            </if>
+            <if test="packageGreet != null">
+                #{packageGreet,jdbcType=VARCHAR},
+            </if>
+            <if test="packageDesc != null">
+                #{packageDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="validStatus != null">
+                #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="createAdminUserId != null">
+                #{createAdminUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createIp != null">
+                #{createIp,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.fanfandou.platform.api.activity.entity.PromoteAwardPackageExample"
+            resultType="java.lang.Integer">
+        select count(*) from promote_award_package
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update promote_award_package
+        <set>
+            <if test="record.packageId != null">
+                package_id = #{record.packageId,jdbcType=INTEGER},
+            </if>
+            <if test="record.packageName != null">
+                package_name = #{record.packageName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gameId != null">
+                game_id = #{record.gameId,jdbcType=INTEGER},
+            </if>
+            <if test="record.promoteCategory != null">
+                promote_category = #{record.promoteCategory,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="record.itemsPackage != null">
+                items_package = #{record.itemsPackage,jdbcType=VARCHAR},
+            </if>
+            <if test="record.packageGreet != null">
+                package_greet = #{record.packageGreet,jdbcType=VARCHAR},
+            </if>
+            <if test="record.packageDesc != null">
+                package_desc = #{record.packageDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.validStatus != null">
+                valid_status =
+                #{record.validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="record.createAdminUserId != null">
+                create_admin_user_id = #{record.createAdminUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createDate != null">
+                create_date = #{record.createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.createIp != null">
+                create_ip = #{record.createIp,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update promote_award_package
+        set package_id = #{record.packageId,jdbcType=INTEGER},
+        package_name = #{record.packageName,jdbcType=VARCHAR},
+        game_id = #{record.gameId,jdbcType=INTEGER},
+        promote_category = #{record.promoteCategory,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+        items_package = #{record.itemsPackage,jdbcType=VARCHAR},
+        package_greet = #{record.packageGreet,jdbcType=VARCHAR},
+        package_desc = #{record.packageDesc,jdbcType=VARCHAR},
+        valid_status =
+        #{record.validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+        create_admin_user_id = #{record.createAdminUserId,jdbcType=VARCHAR},
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+        create_ip = #{record.createIp,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.fanfandou.platform.api.activity.entity.PromoteAwardPackage">
+        update promote_award_package
+        <set>
+            <if test="packageName != null">
+                package_name = #{packageName,jdbcType=VARCHAR},
+            </if>
+            <if test="gameId != null">
+                game_id = #{gameId,jdbcType=INTEGER},
+            </if>
+            <if test="promoteCategory != null">
+                promote_category = #{promoteCategory,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="itemsPackage != null">
+                items_package = #{itemsPackage,jdbcType=VARCHAR},
+            </if>
+            <if test="packageGreet != null">
+                package_greet = #{packageGreet,jdbcType=VARCHAR},
+            </if>
+            <if test="packageDesc != null">
+                package_desc = #{packageDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="validStatus != null">
+                valid_status =
+                #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="createAdminUserId != null">
+                create_admin_user_id = #{createAdminUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createIp != null">
+                create_ip = #{createIp,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where package_id = #{packageId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.fanfandou.platform.api.activity.entity.PromoteAwardPackage">
+    update promote_award_package
+    set package_name = #{packageName,jdbcType=VARCHAR},
+      game_id = #{gameId,jdbcType=INTEGER},
+      promote_category = #{promoteCategory,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      items_package = #{itemsPackage,jdbcType=VARCHAR},
+      package_greet = #{packageGreet,jdbcType=VARCHAR},
+      package_desc = #{packageDesc,jdbcType=VARCHAR},
+      valid_status = #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      create_admin_user_id = #{createAdminUserId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_ip = #{createIp,jdbcType=VARCHAR}
+    where package_id = #{packageId,jdbcType=INTEGER}
+  </update>
+
+    <select id="pageList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select * from promote_award_package
+        where 1=1
+
+        and package_name LIKE #{packageName,jdbcType=VARCHAR}
+
+        <if test="gameId != null ">
+            and game_id = #{gameId,jdbcType=INTEGER}
+        </if>
+
+        order by package_id desc
+        limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+
+    </select>
+
+    <select id="totalCount" resultType="int" parameterType="java.util.Map">
+
+
+        select count(*) from promote_award_package
+        WHERE 1=1 and package_name LIKE #{packageName,jdbcType=VARCHAR}
+        <if test="gameId != null ">
+            and game_id = #{gameId,jdbcType=INTEGER}
+        </if>
+
+    </select>
+
+    <select id="getList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select * from promote_award_package
+        where 1=1
+
+        <if test="gameId != null ">
+            and game_id = #{gameId,jdbcType=INTEGER}
+        </if>
+
+    </select>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="billing-service" owner="platform"/>
+    <dubbo:protocol name="dubbo" port="20881"/>
+    <dubbo:monitor protocol="registry" />
+    <dubbo:service interface="com.fanfandou.platform.api.billing.service.BillingService" ref="billingService"
+                   timeout="30000"/>
+    <dubbo:service interface="com.fanfandou.platform.api.billing.service.OrderService" ref="orderService"
+                   timeout="30000"/>
+    <dubbo:service interface="com.fanfandou.platform.api.billing.service.WalletSerivce" ref="walletService"
+                   timeout="30000"/>
+    <dubbo:service interface="com.fanfandou.platform.api.billing.service.GoodsService" ref="goodsService"
+                   timeout="30000"/>
+
+    <dubbo:reference interface="com.fanfandou.platform.api.game.service.OperationDispatchService" id="operationDispatchService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.game.service.GameAreaService" id="gameAreaService"/>
+    <dubbo:reference interface="com.fanfandou.admin.api.system.service.DataDictionaryService" id="dataDictionaryService" check="false"/>
+
+</beans>

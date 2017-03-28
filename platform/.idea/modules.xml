@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/platform.iml" filepath="$PROJECT_DIR$/platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform-api/platform-api.iml" filepath="$PROJECT_DIR$/platform-api/platform-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform-serv-activity/platform-serv-activity.iml" filepath="$PROJECT_DIR$/platform-serv-activity/platform-serv-activity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform-serv-billing/platform-serv-billing.iml" filepath="$PROJECT_DIR$/platform-serv-billing/platform-serv-billing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform-serv-game/platform-serv-game.iml" filepath="$PROJECT_DIR$/platform-serv-game/platform-serv-game.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform-serv-user/platform-serv-user.iml" filepath="$PROJECT_DIR$/platform-serv-user/platform-serv-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform-web/platform-web.iml" filepath="$PROJECT_DIR$/platform-web/platform-web.iml" />
+    </modules>
+  </component>
+</project>

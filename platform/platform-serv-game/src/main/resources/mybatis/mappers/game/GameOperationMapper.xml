@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.platform.serv.game.dao.GameOperationMapper">
+    <resultMap id="BaseResultMap" type="com.fanfandou.platform.api.game.entity.GameOperation">
+        <id column="opt_id" property="optId" jdbcType="BIGINT"/>
+        <result column="game_id" property="gameId" jdbcType="INTEGER"/>
+        <result column="area_id" property="areaId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="opt_type" property="optType" jdbcType="TINYINT"
+                typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+        <result column="opt_content" property="optContent" jdbcType="VARCHAR"/>
+        <result column="opt_desc" property="optDesc" jdbcType="VARCHAR"/>
+        <result column="valid_status" property="validStatus" jdbcType="TINYINT"
+                typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="try_times" property="tryTimes" jdbcType="INTEGER"/>
+        <result column="last_try_time" property="lastTryTime" jdbcType="TIMESTAMP"/>
+        <result column="deliver_status" property="deliverStatus" jdbcType="TINYINT"
+                typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+        <result column="deliver_time" property="deliverTime" jdbcType="TIMESTAMP"/>
+        <result column="deliver_server_name" property="deliverServerName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    opt_id, game_id, area_id, user_id, role_id, role_name, opt_type, opt_content, opt_desc, 
+    valid_status, create_time, try_times, last_try_time, deliver_status, deliver_time, 
+    deliver_server_name
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.fanfandou.platform.api.game.entity.GameOperationExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from game_operation
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from game_operation
+        where opt_id = #{optId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from game_operation
+    where opt_id = #{optId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.fanfandou.platform.api.game.entity.GameOperation">
+    insert into game_operation (opt_id, game_id, area_id, 
+      user_id, role_id, role_name, 
+      opt_type, opt_content, opt_desc, 
+      valid_status, create_time, try_times, 
+      last_try_time, deliver_status, deliver_time, 
+      deliver_server_name)
+    values (#{optId,jdbcType=BIGINT}, #{gameId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{roleName,jdbcType=VARCHAR}, 
+      #{optType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}, #{optContent,jdbcType=VARCHAR}, #{optDesc,jdbcType=VARCHAR},
+      #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}, #{createTime,jdbcType=TIMESTAMP}, #{tryTimes,jdbcType=INTEGER},
+      #{lastTryTime,jdbcType=TIMESTAMP}, #{deliverStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}, #{deliverTime,jdbcType=TIMESTAMP},
+      #{deliverServerName,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.fanfandou.platform.api.game.entity.GameOperation">
+        insert into game_operation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="optId != null">
+                opt_id,
+            </if>
+            <if test="gameId != null">
+                game_id,
+            </if>
+            <if test="areaId != null">
+                area_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="roleName != null">
+                role_name,
+            </if>
+            <if test="optType != null">
+                opt_type,
+            </if>
+            <if test="optContent != null">
+                opt_content,
+            </if>
+            <if test="optDesc != null">
+                opt_desc,
+            </if>
+            <if test="validStatus != null">
+                valid_status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="tryTimes != null">
+                try_times,
+            </if>
+            <if test="lastTryTime != null">
+                last_try_time,
+            </if>
+            <if test="deliverStatus != null">
+                deliver_status,
+            </if>
+            <if test="deliverTime != null">
+                deliver_time,
+            </if>
+            <if test="deliverServerName != null">
+                deliver_server_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="optId != null">
+                #{optId,jdbcType=BIGINT},
+            </if>
+            <if test="gameId != null">
+                #{gameId,jdbcType=INTEGER},
+            </if>
+            <if test="areaId != null">
+                #{areaId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="roleId != null">
+                #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="roleName != null">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="optType != null">
+                #{optType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="optContent != null">
+                #{optContent,jdbcType=VARCHAR},
+            </if>
+            <if test="optDesc != null">
+                #{optDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="validStatus != null">
+                #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tryTimes != null">
+                #{tryTimes,jdbcType=INTEGER},
+            </if>
+            <if test="lastTryTime != null">
+                #{lastTryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deliverStatus != null">
+                #{deliverStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="deliverTime != null">
+                #{deliverTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deliverServerName != null">
+                #{deliverServerName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.fanfandou.platform.api.game.entity.GameOperationExample"
+            resultType="java.lang.Integer">
+        select count(*) from game_operation
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective">
+        update game_operation
+        <set>
+            <if test="record.optId != null">
+                opt_id = #{record.optId,jdbcType=BIGINT},
+            </if>
+            <if test="record.gameId != null">
+                game_id = #{record.gameId,jdbcType=INTEGER},
+            </if>
+            <if test="record.areaId != null">
+                area_id = #{record.areaId,jdbcType=INTEGER},
+            </if>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=BIGINT},
+            </if>
+            <if test="record.roleId != null">
+                role_id = #{record.roleId,jdbcType=BIGINT},
+            </if>
+            <if test="record.roleName != null">
+                role_name = #{record.roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.optType != null">
+                opt_type =
+                #{record.optType.id,jdbcType=TINYINT},
+            </if>
+            <if test="record.optContent != null">
+                opt_content = #{record.optContent,jdbcType=VARCHAR},
+            </if>
+            <if test="record.optDesc != null">
+                opt_desc = #{record.optDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.validStatus != null">
+                valid_status =
+                #{record.validStatus.id,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.tryTimes != null">
+                try_times = #{record.tryTimes,jdbcType=INTEGER},
+            </if>
+            <if test="record.lastTryTime != null">
+                last_try_time = #{record.lastTryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.deliverStatus != null">
+                deliver_status =
+                #{record.deliverStatus.id,jdbcType=TINYINT},
+            </if>
+            <if test="record.deliverTime != null">
+                deliver_time = #{record.deliverTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.deliverServerName != null">
+                deliver_server_name = #{record.deliverServerName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update game_operation
+        set opt_id = #{record.optId,jdbcType=BIGINT},
+        game_id = #{record.gameId,jdbcType=INTEGER},
+        area_id = #{record.areaId,jdbcType=INTEGER},
+        user_id = #{record.userId,jdbcType=BIGINT},
+        role_id = #{record.roleId,jdbcType=BIGINT},
+        role_name = #{record.roleName,jdbcType=VARCHAR},
+        opt_type = #{record.optType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+        opt_content = #{record.optContent,jdbcType=VARCHAR},
+        opt_desc = #{record.optDesc,jdbcType=VARCHAR},
+        valid_status =
+        #{record.validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        try_times = #{record.tryTimes,jdbcType=INTEGER},
+        last_try_time = #{record.lastTryTime,jdbcType=TIMESTAMP},
+        deliver_status =
+        #{record.deliverStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+        deliver_time = #{record.deliverTime,jdbcType=TIMESTAMP},
+        deliver_server_name = #{record.deliverServerName,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.fanfandou.platform.api.game.entity.GameOperation">
+        update game_operation
+        <set>
+            <if test="gameId != null">
+                game_id = #{gameId,jdbcType=INTEGER},
+            </if>
+            <if test="areaId != null">
+                area_id = #{areaId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="roleId != null">
+                role_id = #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="roleName != null">
+                role_name = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="optType != null">
+                opt_type = #{optType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="optContent != null">
+                opt_content = #{optContent,jdbcType=VARCHAR},
+            </if>
+            <if test="optDesc != null">
+                opt_desc = #{optDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="validStatus != null">
+                valid_status =
+                #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tryTimes != null">
+                try_times = #{tryTimes,jdbcType=INTEGER},
+            </if>
+            <if test="lastTryTime != null">
+                last_try_time = #{lastTryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deliverStatus != null">
+                deliver_status =
+                #{deliverStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="deliverTime != null">
+                deliver_time = #{deliverTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deliverServerName != null">
+                deliver_server_name = #{deliverServerName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where opt_id = #{optId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.fanfandou.platform.api.game.entity.GameOperation">
+    update game_operation
+    set game_id = #{gameId,jdbcType=INTEGER},
+      area_id = #{areaId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=BIGINT},
+      role_id = #{roleId,jdbcType=BIGINT},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      opt_type = #{optType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      opt_content = #{optContent,jdbcType=VARCHAR},
+      opt_desc = #{optDesc,jdbcType=VARCHAR},
+      valid_status = #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      try_times = #{tryTimes,jdbcType=INTEGER},
+      last_try_time = #{lastTryTime,jdbcType=TIMESTAMP},
+      deliver_status = #{deliverStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      deliver_time = #{deliverTime,jdbcType=TIMESTAMP},
+      deliver_server_name = #{deliverServerName,jdbcType=VARCHAR}
+    where opt_id = #{optId,jdbcType=BIGINT}
+  </update>
+</mapper>

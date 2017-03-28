@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.platform.serv.billing.dao.BillingGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.fanfandou.platform.api.billing.entity.BillingGoods" >
+    <id column="goods_id" property="goodsId" jdbcType="INTEGER" />
+    <result column="goods_type" property="goodsType" jdbcType="TINYINT" />
+    <result column="shop_type" property="shopType" jdbcType="TINYINT" typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_desc" property="goodsDesc" jdbcType="VARCHAR" />
+    <result column="goods_pic" property="goodsPic" jdbcType="VARCHAR" />
+    <result column="goods_amount" property="goodsAmount" jdbcType="INTEGER" />
+    <result column="goods_count" property="goodsCount" jdbcType="INTEGER" />
+    <result column="unit_price" property="unitPrice" jdbcType="INTEGER" />
+    <result column="award_id" property="awardId" jdbcType="VARCHAR" />
+    <result column="game_id" property="gameId" jdbcType="INTEGER" />
+    <result column="site_id" property="siteId" jdbcType="INTEGER" />
+    <result column="area_ids" property="areaIds" jdbcType="VARCHAR" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+    <result column="goods_mark_time" property="goodsMarkTime" jdbcType="TIMESTAMP" />
+    <result column="related_goods_id" property="relatedGoodsId" jdbcType="VARCHAR" />
+    <result column="disaccount" property="disaccount" jdbcType="DOUBLE" />
+    <result column="valid_status" property="validStatus" jdbcType="TINYINT" typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    goods_id, goods_type, shop_type, goods_name, goods_desc, goods_pic, goods_amount, goods_count,
+    unit_price, award_id, game_id, site_id, area_ids, goods_code, goods_mark_time, related_goods_id, 
+    disaccount, valid_status, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap"
+          parameterType="com.fanfandou.platform.api.billing.entity.BillingGoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from billing_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from billing_goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByGoodsCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from billing_goods where goods_code = #{goodsCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from billing_goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByGoodsCode" parameterType="java.lang.String" >
+    delete from billing_goods
+    where goods_code = #{goodsCode,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.fanfandou.platform.api.billing.entity.BillingGoods" >
+    insert into billing_goods (goods_id, goods_type, shop_type, goods_name,
+      goods_desc, goods_pic, goods_amount, 
+      goods_count, unit_price, award_id, 
+      game_id, site_id, area_ids, 
+      goods_code, goods_mark_time, related_goods_id, 
+      disaccount, valid_status, create_time
+      )
+    values (#{goodsId,jdbcType=INTEGER}, #{goodsType,jdbcType=TINYINT}, #{shopType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}, #{goodsName,jdbcType=VARCHAR},
+      #{goodsDesc,jdbcType=VARCHAR}, #{goodsPic,jdbcType=VARCHAR}, #{goodsAmount,jdbcType=INTEGER}, 
+      #{goodsCount,jdbcType=INTEGER}, #{unitPrice,jdbcType=INTEGER}, #{awardId,jdbcType=VARCHAR}, 
+      #{gameId,jdbcType=INTEGER}, #{siteId,jdbcType=INTEGER}, #{areaIds,jdbcType=VARCHAR}, 
+      #{goodsCode,jdbcType=VARCHAR}, #{goodsMarkTime,jdbcType=TIMESTAMP}, #{relatedGoodsId,jdbcType=VARCHAR}, 
+      #{disaccount,jdbcType=DOUBLE},
+      #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fanfandou.platform.api.billing.entity.BillingGoods" >
+    insert into billing_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsType != null" >
+        goods_type,
+      </if>
+      <if test="shopType != null" >
+        shop_type,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsDesc != null" >
+        goods_desc,
+      </if>
+      <if test="goodsPic != null" >
+        goods_pic,
+      </if>
+      <if test="goodsAmount != null" >
+        goods_amount,
+      </if>
+      <if test="goodsCount != null" >
+        goods_count,
+      </if>
+      <if test="unitPrice != null" >
+        unit_price,
+      </if>
+      <if test="awardId != null" >
+        award_id,
+      </if>
+      <if test="gameId != null" >
+        game_id,
+      </if>
+      <if test="siteId != null" >
+        site_id,
+      </if>
+      <if test="areaIds != null" >
+        area_ids,
+      </if>
+      <if test="goodsCode != null" >
+        goods_code,
+      </if>
+      <if test="goodsMarkTime != null" >
+        goods_mark_time,
+      </if>
+      <if test="relatedGoodsId != null" >
+        related_goods_id,
+      </if>
+      <if test="disaccount != null" >
+        disaccount,
+      </if>
+      <if test="validStatus != null" >
+        valid_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsType != null" >
+        #{goodsType,jdbcType=TINYINT},
+      </if>
+      <if test="shopType != null" >
+        #{shopType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDesc != null" >
+        #{goodsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPic != null" >
+        #{goodsPic,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsAmount != null" >
+        #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCount != null" >
+        #{goodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=INTEGER},
+      </if>
+      <if test="awardId != null" >
+        #{awardId,jdbcType=VARCHAR},
+      </if>
+      <if test="gameId != null" >
+        #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="siteId != null" >
+        #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="areaIds != null" >
+        #{areaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null" >
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsMarkTime != null" >
+        #{goodsMarkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="relatedGoodsId != null" >
+        #{relatedGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="disaccount != null" >
+        #{disaccount,jdbcType=DOUBLE},
+      </if>
+      <if test="validStatus != null" >
+        #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fanfandou.platform.api.billing.entity.BillingGoodsExample"
+          resultType="java.lang.Integer" >
+    select count(*) from billing_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <select id="getAreasByCode" resultType="java.lang.String" parameterType="java.lang.String">
+     SELECT areaIds FROM billing_goods WHERE goods_code = #{goodsCode,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getGoodsByCode" resultMap="BaseResultMap" parameterType="map">
+    SELECT * FROM billing_goods WHERE goods_id = #{goodsId,jdbcType=VARCHAR} and game_id = #{gameId, jdbcType = INTEGER}
+  </select>
+
+  <update id="updateByExampleSelective" parameterType="map" >
+    update billing_goods
+    <set >
+      <if test="record.goodsId != null" >
+        goods_id = #{record.goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsType != null" >
+        goods_type = #{record.goodsType,jdbcType=TINYINT},
+      </if>
+      <if test="record.shopType != null" >
+        shop_type = #{record.shopType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="record.goodsName != null" >
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsDesc != null" >
+        goods_desc = #{record.goodsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsPic != null" >
+        goods_pic = #{record.goodsPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsAmount != null" >
+        goods_amount = #{record.goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsCount != null" >
+        goods_count = #{record.goodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitPrice != null" >
+        unit_price = #{record.unitPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.awardId != null" >
+        award_id = #{record.awardId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameId != null" >
+        game_id = #{record.gameId,jdbcType=INTEGER},
+      </if>
+      <if test="record.siteId != null" >
+        site_id = #{record.siteId,jdbcType=INTEGER},
+      </if>
+      <if test="record.areaIds != null" >
+        area_ids = #{record.areaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsCode != null" >
+        goods_code = #{record.goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsMarkTime != null" >
+        goods_mark_time = #{record.goodsMarkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.relatedGoodsId != null" >
+        related_goods_id = #{record.relatedGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.disaccount != null" >
+        disaccount = #{record.disaccount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.validStatus != null" >
+        valid_status = #{record.validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update billing_goods
+    set goods_id = #{record.goodsId,jdbcType=INTEGER},
+      goods_type = #{record.goodsType,jdbcType=TINYINT},
+      shop_type = #{record.shopType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      goods_desc = #{record.goodsDesc,jdbcType=VARCHAR},
+      goods_pic = #{record.goodsPic,jdbcType=VARCHAR},
+      goods_amount = #{record.goodsAmount,jdbcType=INTEGER},
+      goods_count = #{record.goodsCount,jdbcType=INTEGER},
+      unit_price = #{record.unitPrice,jdbcType=INTEGER},
+      award_id = #{record.awardId,jdbcType=VARCHAR},
+      game_id = #{record.gameId,jdbcType=INTEGER},
+      site_id = #{record.siteId,jdbcType=INTEGER},
+      area_ids = #{record.areaIds,jdbcType=VARCHAR},
+      goods_code = #{record.goodsCode,jdbcType=VARCHAR},
+      goods_mark_time = #{record.goodsMarkTime,jdbcType=TIMESTAMP},
+      related_goods_id = #{record.relatedGoodsId,jdbcType=VARCHAR},
+      disaccount = #{record.disaccount,jdbcType=DOUBLE},
+      valid_status = #{record.validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fanfandou.platform.api.billing.entity.BillingGoods" >
+    update billing_goods
+    <set >
+      <if test="goodsType != 0" >
+        goods_type = #{goodsType,jdbcType=TINYINT},
+      </if>
+      <if test="shopType != null" >
+        shop_type = #{shopType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDesc != null" >
+        goods_desc = #{goodsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPic != null" >
+        goods_pic = #{goodsPic,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsAmount != null" >
+        goods_amount = #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCount != null" >
+        goods_count = #{goodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null" >
+        unit_price = #{unitPrice,jdbcType=INTEGER},
+      </if>
+      <if test="awardId != null" >
+        award_id = #{awardId,jdbcType=VARCHAR},
+      </if>
+      <if test="gameId != null" >
+        game_id = #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="siteId != null" >
+        site_id = #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="areaIds != null" >
+        area_ids = #{areaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null" >
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsMarkTime != null" >
+        goods_mark_time = #{goodsMarkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="relatedGoodsId != null" >
+        related_goods_id = #{relatedGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="disaccount != 0" >
+        disaccount = #{disaccount,jdbcType=DOUBLE},
+      </if>
+      <if test="validStatus != null" >
+        valid_status = #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fanfandou.platform.api.billing.entity.BillingGoods" >
+    update billing_goods
+    set goods_type = #{goodsType,jdbcType=TINYINT},
+      shop_type = #{shopType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_desc = #{goodsDesc,jdbcType=VARCHAR},
+      goods_pic = #{goodsPic,jdbcType=VARCHAR},
+      goods_amount = #{goodsAmount,jdbcType=INTEGER},
+      goods_count = #{goodsCount,jdbcType=INTEGER},
+      unit_price = #{unitPrice,jdbcType=INTEGER},
+      award_id = #{awardId,jdbcType=VARCHAR},
+      game_id = #{gameId,jdbcType=INTEGER},
+      site_id = #{siteId,jdbcType=INTEGER},
+      area_ids = #{areaIds,jdbcType=VARCHAR},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_mark_time = #{goodsMarkTime,jdbcType=TIMESTAMP},
+      related_goods_id = #{relatedGoodsId,jdbcType=VARCHAR},
+      disaccount = #{disaccount,jdbcType=DOUBLE},
+      valid_status = #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <select id="getGoodsBySelective" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT * FROM billing_goods WHERE 1 = 1
+    <if test="siteId != null" >
+      and site_id = #{siteId,jdbcType=INTEGER}
+    </if>
+    <if test="gameId != null">
+      and game_id = #{gameId,jdbcType=INTEGER}
+    </if>
+    <if test="goodsName != null">
+      and goods_name = #{goodsName,jdbcType=VARCHAR}
+    </if>
+    <if test="sort != null" >
+      order by #{order,jdbcType=VARCHAR} #{sort,jdbcType=VARCHAR}
+    </if>
+    limit #{startNum,jdbcType=INTEGER},#{endNum,jdbcType=INTEGER}
+  </select>
+
+  <select id="getGoodsByGameId" resultMap="BaseResultMap" parameterType="int">
+    SELECT * FROM billing_goods WHERE 1 = 1
+    <if test="gameId != null">
+      and game_id = #{gameId,jdbcType=INTEGER}
+    </if>
+      and valid_status = 1
+  </select>
+
+  <select id="totalCount" resultType="int" parameterType="java.util.Map">
+    SELECT count(*) FROM billing_goods WHERE 1 = 1
+    <if test="siteId != null" >
+      and site_id = #{siteId,jdbcType=INTEGER}
+    </if>
+    <if test="gameId != null">
+      and game_id = #{gameId,jdbcType=INTEGER}
+    </if>
+  </select>
+
+
+</mapper>

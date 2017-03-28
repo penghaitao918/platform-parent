@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.fanfandou.platform:admin-api:1.0.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/fanfandou/platform/admin-api/1.0.1-SNAPSHOT/admin-api-1.0.1-20160927.023655-1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/fanfandou/platform/admin-api/1.0.1-SNAPSHOT/admin-api-1.0.1-20160927.023655-1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/fanfandou/platform/admin-api/1.0.1-SNAPSHOT/admin-api-1.0.1-20160927.023655-1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

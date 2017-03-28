@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/admin/admin.iml" filepath="$PROJECT_DIR$/admin/admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/admin/admin-api/admin-api.iml" filepath="$PROJECT_DIR$/admin/admin-api/admin-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/admin/admin-server/admin-server.iml" filepath="$PROJECT_DIR$/admin/admin-server/admin-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/admin/admin-web/admin-web.iml" filepath="$PROJECT_DIR$/admin/admin-web/admin-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/platform.iml" filepath="$PROJECT_DIR$/platform/platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/platform-api/platform-api.iml" filepath="$PROJECT_DIR$/platform/platform-api/platform-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform-parent.iml" filepath="$PROJECT_DIR$/platform-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/platform-serv-activity/platform-serv-activity.iml" filepath="$PROJECT_DIR$/platform/platform-serv-activity/platform-serv-activity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/platform-serv-billing/platform-serv-billing.iml" filepath="$PROJECT_DIR$/platform/platform-serv-billing/platform-serv-billing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/platform-serv-game/platform-serv-game.iml" filepath="$PROJECT_DIR$/platform/platform-serv-game/platform-serv-game.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/platform-serv-user/platform-serv-user.iml" filepath="$PROJECT_DIR$/platform/platform-serv-user/platform-serv-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/platform-web/platform-web.iml" filepath="$PROJECT_DIR$/platform/platform-web/platform-web.iml" />
+    </modules>
+  </component>
+</project>

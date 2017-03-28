@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.platform.serv.billing.dao.BillingWalletBalanceMapper" >
+  <resultMap id="BaseResultMap" type="com.fanfandou.platform.api.billing.entity.BillingWalletBalance" >
+    <id column="wallet_id" property="walletId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="deposit_date" property="depositDate" jdbcType="DATE" />
+    <result column="last_withdraw_date" property="lastWithdrawDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    wallet_id, user_id, amount, deposit_date, last_withdraw_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap"
+          parameterType="com.fanfandou.platform.api.billing.entity.BillingWalletBalanceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from billing_wallet_balance
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from billing_wallet_balance
+    where wallet_id = #{walletId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from billing_wallet_balance
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from billing_wallet_balance
+    where wallet_id = #{walletId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fanfandou.platform.api.billing.entity.BillingWalletBalance" >
+    insert into billing_wallet_balance (wallet_id, user_id, amount, 
+      deposit_date, last_withdraw_date)
+    values (#{walletId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{amount,jdbcType=INTEGER},
+      #{depositDate,jdbcType=DATE}, #{lastWithdrawDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fanfandou.platform.api.billing.entity.BillingWalletBalance" >
+    insert into billing_wallet_balance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="walletId != null" >
+        wallet_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="depositDate != null" >
+        deposit_date,
+      </if>
+      <if test="lastWithdrawDate != null" >
+        last_withdraw_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="walletId != null" >
+        #{walletId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="depositDate != null" >
+        #{depositDate,jdbcType=DATE},
+      </if>
+      <if test="lastWithdrawDate != null" >
+        #{lastWithdrawDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fanfandou.platform.api.billing.entity.BillingWalletBalanceExample"
+          resultType="java.lang.Integer" >
+    select count(*) from billing_wallet_balance
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update billing_wallet_balance
+    <set >
+      <if test="record.walletId != null" >
+        wallet_id = #{record.walletId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=INTEGER},
+      </if>
+      <if test="record.depositDate != null" >
+        deposit_date = #{record.depositDate,jdbcType=DATE},
+      </if>
+      <if test="record.lastWithdrawDate != null" >
+        last_withdraw_date = #{record.lastWithdrawDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update billing_wallet_balance
+    set wallet_id = #{record.walletId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      amount = #{record.amount,jdbcType=INTEGER},
+      deposit_date = #{record.depositDate,jdbcType=DATE},
+      last_withdraw_date = #{record.lastWithdrawDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective"
+          parameterType="com.fanfandou.platform.api.billing.entity.BillingWalletBalance" >
+    update billing_wallet_balance
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="depositDate != null" >
+        deposit_date = #{depositDate,jdbcType=DATE},
+      </if>
+      <if test="lastWithdrawDate != null" >
+        last_withdraw_date = #{lastWithdrawDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where wallet_id = #{walletId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fanfandou.platform.api.billing.entity.BillingWalletBalance" >
+    update billing_wallet_balance
+    set user_id = #{userId,jdbcType=BIGINT},
+      amount = #{amount,jdbcType=INTEGER},
+      deposit_date = #{depositDate,jdbcType=DATE},
+      last_withdraw_date = #{lastWithdrawDate,jdbcType=TIMESTAMP}
+    where wallet_id = #{walletId,jdbcType=BIGINT}
+  </update>
+</mapper>

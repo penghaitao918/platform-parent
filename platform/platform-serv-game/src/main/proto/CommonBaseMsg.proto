@@ -1,0 +1,71 @@
+package common.ffd.base;
+
+option optimize_for = LITE_RUNTIME;
+option java_package = "com.fanfandou.platform.serv.game.entity.tol.base";
+
+// 连接类型
+enum ServerType
+{
+	///////////////////////////////////客户端///////////////////////////////////
+	ServerType_ClientAccount = 0;		// 账号客户端
+	ServerType_ClientLogic = 1;			// 逻辑客户端
+	ServerType_ClientChat = 2;			// 聊天客户端
+	ServerType_ClientBattle = 3;		// 战斗客户端
+	ServerType_ClientGM = 4;			// gm客户端
+
+	///////////////////////////////////账号服///////////////////////////////////
+	ServerType_AccountDB = 5;			// 账号服
+
+	///////////////////////////////////逻辑服///////////////////////////////////
+	ServerType_BattleGate = 6;			// 战斗服网关
+	ServerType_Battle = 7;				// 战斗服
+
+	ServerType_LogicGate = 8;			// 逻辑服网关
+	ServerType_ChatGate = 9;			// 聊天服网关
+	ServerType_Logic = 10;				// 逻辑服
+
+	ServerType_PlayerDB = 11;			// 角色数据库
+	ServerType_LogDB = 12;				// 日志数据库
+
+	///////////////////////////////////中心服///////////////////////////////////
+	ServerType_Center = 13;				// 中心服
+	ServerType_Team = 14;				// 队伍匹配服
+	ServerType_Ranking = 15;			// 排行榜服
+	ServerType_Union = 16;				// 公会服
+	ServerType_CenterDB = 17;			// 跨服数据库
+}
+
+// 服务器之间表明自己的身份的协议
+message Msg_Connect
+{
+	required uint32 m_type = 1;				// 连接方的类型，表明自己的身份（对应ServerType）
+	optional uint32 m_id = 2;				// 连接方的唯一id
+	optional string m_ip= 3;				// 连接方的ip
+	optional uint32 m_port = 4;				// 连接方的port
+}
+
+// 心跳包
+message Msg_Ping_Req
+{
+	optional uint64 m_ms = 1;				// 毫秒数
+}
+message Msg_Ping_Res
+{
+	optional uint64 m_ms = 1;				// 毫秒数
+}
+
+// 逻辑服务器之间的数据包转发协议
+message Msg_Normal
+{
+
+}
+
+message Msg_Route
+{
+
+}
+
+message Msg_Broadcast
+{
+
+}

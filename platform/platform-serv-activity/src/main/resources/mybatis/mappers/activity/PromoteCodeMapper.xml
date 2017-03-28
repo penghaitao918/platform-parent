@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.platform.serv.activity.dao.PromoteCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.fanfandou.platform.api.activity.entity.PromoteCode" >
+    <id column="code_id" property="codeId" jdbcType="BIGINT" />
+    <result column="promote_code" property="promoteCode" jdbcType="VARCHAR" />
+    <result column="batch_id" property="batchId" jdbcType="INTEGER" />
+    <result column="valid_status" property="validStatus" jdbcType="TINYINT" typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="draw_site_id" property="drawSiteId" jdbcType="INTEGER" />
+    <result column="draw_channel" property="drawChannel" jdbcType="VARCHAR" />
+    <result column="draw_game_id" property="drawGameId" jdbcType="INTEGER" />
+    <result column="draw_game_area_id" property="drawGameAreaId" jdbcType="INTEGER" />
+    <result column="draw_status" property="drawStatus" jdbcType="TINYINT" typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+    <result column="draw_user_id" property="drawUserId" jdbcType="INTEGER" />
+    <result column="draw_role_id" property="drawRoleId" jdbcType="VARCHAR" />
+    <result column="draw_date" property="drawDate" jdbcType="TIMESTAMP" />
+    <result column="draw_ip" property="drawIp" jdbcType="VARCHAR" />
+    <result column="deliver_status" property="deliverStatus" jdbcType="TINYINT" typeHandler="com.fanfandou.common.handler.EnumStatusHandler" />
+    <result column="deliver_date" property="deliverDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    code_id, promote_code, batch_id, valid_status, create_date, draw_site_id, draw_channel, 
+    draw_game_id, draw_game_area_id, draw_status, draw_user_id, draw_role_id, draw_date, 
+    draw_ip, deliver_status, deliver_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fanfandou.platform.api.activity.entity.PromoteCodeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from promote_code
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from promote_code
+    where code_id = #{codeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from promote_code
+    where code_id = #{codeId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fanfandou.platform.api.activity.entity.PromoteCode" >
+    insert into promote_code (code_id, promote_code, batch_id, 
+      valid_status, create_date, draw_site_id, 
+      draw_channel, draw_game_id, draw_game_area_id, 
+      draw_status, draw_user_id, draw_role_id, 
+      draw_date, draw_ip, deliver_status, 
+      deliver_date)
+    values (#{codeId,jdbcType=BIGINT}, #{promoteCode,jdbcType=VARCHAR}, #{batchId,jdbcType=INTEGER}, 
+      #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}, #{createDate,jdbcType=TIMESTAMP}, #{drawSiteId,jdbcType=INTEGER},
+      #{drawChannel,jdbcType=VARCHAR}, #{drawGameId,jdbcType=INTEGER}, #{drawGameAreaId,jdbcType=INTEGER}, 
+      #{drawStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}, #{drawUserId,jdbcType=INTEGER}, #{drawRoleId,jdbcType=VARCHAR},
+      #{drawDate,jdbcType=TIMESTAMP}, #{drawIp,jdbcType=VARCHAR}, #{deliverStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      #{deliverDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fanfandou.platform.api.activity.entity.PromoteCode" >
+    insert into promote_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="codeId != null" >
+        code_id,
+      </if>
+      <if test="promoteCode != null" >
+        promote_code,
+      </if>
+      <if test="batchId != null" >
+        batch_id,
+      </if>
+      <if test="validStatus != null" >
+        valid_status,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="drawSiteId != null" >
+        draw_site_id,
+      </if>
+      <if test="drawChannel != null" >
+        draw_channel,
+      </if>
+      <if test="drawGameId != null" >
+        draw_game_id,
+      </if>
+      <if test="drawGameAreaId != null" >
+        draw_game_area_id,
+      </if>
+      <if test="drawStatus != null" >
+        draw_status,
+      </if>
+      <if test="drawUserId != null" >
+        draw_user_id,
+      </if>
+      <if test="drawRoleId != null" >
+        draw_role_id,
+      </if>
+      <if test="drawDate != null" >
+        draw_date,
+      </if>
+      <if test="drawIp != null" >
+        draw_ip,
+      </if>
+      <if test="deliverStatus != null" >
+        deliver_status,
+      </if>
+      <if test="deliverDate != null" >
+        deliver_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="codeId != null" >
+        #{codeId,jdbcType=BIGINT},
+      </if>
+      <if test="promoteCode != null" >
+        #{promoteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null" >
+        #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="validStatus != null" >
+        #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drawSiteId != null" >
+        #{drawSiteId,jdbcType=INTEGER},
+      </if>
+      <if test="drawChannel != null" >
+        #{drawChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="drawGameId != null" >
+        #{drawGameId,jdbcType=INTEGER},
+      </if>
+      <if test="drawGameAreaId != null" >
+        #{drawGameAreaId,jdbcType=INTEGER},
+      </if>
+      <if test="drawStatus != null" >
+        #{drawStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="drawUserId != null" >
+        #{drawUserId,jdbcType=INTEGER},
+      </if>
+      <if test="drawRoleId != null" >
+        #{drawRoleId,jdbcType=VARCHAR},
+      </if>
+      <if test="drawDate != null" >
+        #{drawDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drawIp != null" >
+        #{drawIp,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverStatus != null" >
+        #{deliverStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="deliverDate != null" >
+        #{deliverDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fanfandou.platform.api.activity.entity.PromoteCodeExample" resultType="java.lang.Integer" >
+    select count(*) from promote_code
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update promote_code
+    <set >
+      <if test="record.codeId != null" >
+        code_id = #{record.codeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.promoteCode != null" >
+        promote_code = #{record.promoteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchId != null" >
+        batch_id = #{record.batchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.validStatus != null" >
+        valid_status = #{record.validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.drawSiteId != null" >
+        draw_site_id = #{record.drawSiteId,jdbcType=INTEGER},
+      </if>
+      <if test="record.drawChannel != null" >
+        draw_channel = #{record.drawChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drawGameId != null" >
+        draw_game_id = #{record.drawGameId,jdbcType=INTEGER},
+      </if>
+      <if test="record.drawGameAreaId != null" >
+        draw_game_area_id = #{record.drawGameAreaId,jdbcType=INTEGER},
+      </if>
+      <if test="record.drawStatus != null" >
+        draw_status = #{record.drawStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="record.drawUserId != null" >
+        draw_user_id = #{record.drawUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.drawRoleId != null" >
+        draw_role_id = #{record.drawRoleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drawDate != null" >
+        draw_date = #{record.drawDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.drawIp != null" >
+        draw_ip = #{record.drawIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliverStatus != null" >
+        deliver_status = #{record.deliverStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="record.deliverDate != null" >
+        deliver_date = #{record.deliverDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update promote_code
+    set code_id = #{record.codeId,jdbcType=BIGINT},
+      promote_code = #{record.promoteCode,jdbcType=VARCHAR},
+      batch_id = #{record.batchId,jdbcType=INTEGER},
+      valid_status = #{record.validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      draw_site_id = #{record.drawSiteId,jdbcType=INTEGER},
+      draw_channel = #{record.drawChannel,jdbcType=VARCHAR},
+      draw_game_id = #{record.drawGameId,jdbcType=INTEGER},
+      draw_game_area_id = #{record.drawGameAreaId,jdbcType=INTEGER},
+      draw_status = #{record.drawStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      draw_user_id = #{record.drawUserId,jdbcType=INTEGER},
+      draw_role_id = #{record.drawRoleId,jdbcType=VARCHAR},
+      draw_date = #{record.drawDate,jdbcType=TIMESTAMP},
+      draw_ip = #{record.drawIp,jdbcType=VARCHAR},
+      deliver_status = #{record.deliverStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      deliver_date = #{record.deliverDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fanfandou.platform.api.activity.entity.PromoteCode" >
+    update promote_code
+    <set >
+      <if test="promoteCode != null" >
+        promote_code = #{promoteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null" >
+        batch_id = #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="validStatus != null" >
+        valid_status = #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drawSiteId != null" >
+        draw_site_id = #{drawSiteId,jdbcType=INTEGER},
+      </if>
+      <if test="drawChannel != null" >
+        draw_channel = #{drawChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="drawGameId != null" >
+        draw_game_id = #{drawGameId,jdbcType=INTEGER},
+      </if>
+      <if test="drawGameAreaId != null" >
+        draw_game_area_id = #{drawGameAreaId,jdbcType=INTEGER},
+      </if>
+      <if test="drawStatus != null" >
+        draw_status = #{drawStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="drawUserId != null" >
+        draw_user_id = #{drawUserId,jdbcType=INTEGER},
+      </if>
+      <if test="drawRoleId != null" >
+        draw_role_id = #{drawRoleId,jdbcType=VARCHAR},
+      </if>
+      <if test="drawDate != null" >
+        draw_date = #{drawDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drawIp != null" >
+        draw_ip = #{drawIp,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverStatus != null" >
+        deliver_status = #{deliverStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      </if>
+      <if test="deliverDate != null" >
+        deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where code_id = #{codeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fanfandou.platform.api.activity.entity.PromoteCode" >
+    update promote_code
+    set promote_code = #{promoteCode,jdbcType=VARCHAR},
+      batch_id = #{batchId,jdbcType=INTEGER},
+      valid_status = #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      draw_site_id = #{drawSiteId,jdbcType=INTEGER},
+      draw_channel = #{drawChannel,jdbcType=VARCHAR},
+      draw_game_id = #{drawGameId,jdbcType=INTEGER},
+      draw_game_area_id = #{drawGameAreaId,jdbcType=INTEGER},
+      draw_status = #{drawStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      draw_user_id = #{drawUserId,jdbcType=INTEGER},
+      draw_role_id = #{drawRoleId,jdbcType=VARCHAR},
+      draw_date = #{drawDate,jdbcType=TIMESTAMP},
+      draw_ip = #{drawIp,jdbcType=VARCHAR},
+      deliver_status = #{deliverStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      deliver_date = #{deliverDate,jdbcType=TIMESTAMP}
+    where code_id = #{codeId,jdbcType=BIGINT}
+  </update>
+
+    <select id="pageList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select * from promote_code
+        where 1=1
+        and promote_code LIKE #{codeName,jdbcType=VARCHAR}
+        <if test="gameId != null ">
+            and draw_game_id = #{gameId,jdbcType=INTEGER}
+        </if>
+        order by code_id desc
+        limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+
+    </select>
+
+    <select id="totalCount" resultType="int" parameterType="java.util.Map">
+        select count(*) from promote_code
+        WHERE 1=1 and promote_code LIKE #{codeName,jdbcType=VARCHAR}
+        and promote_code LIKE #{codeName,jdbcType=VARCHAR}
+        <if test="gameId != null ">
+            and draw_game_id = #{gameId,jdbcType=INTEGER}
+        </if>
+
+    </select>
+
+</mapper>

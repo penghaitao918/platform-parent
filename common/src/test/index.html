@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>bubble event</title>
+    <style type="text/css">
+        body{margin:0;}
+        #one{
+            width:500px;
+            height:300px;
+            background:rgb(255,0,0);
+        }
+        #two{
+            width:400px;
+            height:260px;
+            background:rgb(255,50,50);
+        }
+        #three{
+            width:300px;
+            height:240px;
+            background:rgb(255,100,100);
+        }
+        #four{
+            width:200px;
+            height:200px;
+            background:rgb(255,150,150);
+        }
+    </style>
+</head>
+<body>
+<div id='one'>
+    <div id='two'>
+        <div id='three'>
+            <div id='four'>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var one = document.getElementById('one');
+    var two = document.getElementById('two');
+    var three = document.getElementById('three');
+    var four = document.getElementById('four');
+
+    var useCapture = true; //false为冒泡获取【目标元素先触发】    true为捕获获取【父级元素先触发】
+    one.addEventListener('click', function() {
+        console.log('one');
+    }, useCapture);
+    two.addEventListener('click', function() {
+        console.log('two');
+    }, useCapture);
+    three.addEventListener('click', function() {
+        console.log('three');
+    }, useCapture);
+    four.addEventListener('click', function() {
+        console.log('four');
+    }, useCapture);
+    /*
+     false
+     冒泡
+     点击four div
+     输出结果：four three two one
+
+     true
+     捕获
+     点击four div
+     输出结果： one two three four
+
+     件捕获
+     当你使用事件捕获时，父级元素先触发，子级元素后触发，即div先触发，p后触发。
+     事件冒泡
+     当你使用事件冒泡时，子级元素先触发，父级元素后触发，即p先触发，div后触发。
+     W3C模型
+     W3C模型是将两者进行中和，在W3C模型中，任何事件发生时，先从顶层开始进行事件捕获，直到事件触发到达了事件源元素。然后，再从事件源往上进行事件冒泡，直到到达document。
+     程序员可以自己选择绑定事件时采用事件捕获还是事件冒泡，方法就是绑定事件时通过addEventListener函数，它有三个参数，第三个参数若是true，则表示采用事件捕获，若是false，则表示采用事件冒泡。
+
+     事件的传播是可以阻止的：
+     • 在W3c中，使用stopPropagation（）方法
+     • 在IE下设置cancelBubble = true；
+     在捕获的过程中stopPropagation（）；后，后面的冒泡过程也不会发生了~
+     3.阻止事件的默认行为，例如click <a>后的跳转~
+     • 在W3c中，使用preventDefault（）方法；
+     • 在IE下设置window.event.returnValue = false;
+     e.preventDefault();
+
+     var e = e || window.e;
+     e.stopPropagation();
+     */
+</script>
+</body>
+</html>

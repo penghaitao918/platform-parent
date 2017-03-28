@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <param name="target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%-5p] %d(%r) --> [%t] %l: %m %x %n"/>
+        </layout>
+    </appender>
+    <appender name="logfile" class="org.apache.log4j.DailyRollingFileAppender">
+        <!-- 此处service.log.name是需要配在jvm -D参数的，否则取不到  -->
+        <param name="File" value="${user.home}/ffd_platform/logs/${service.log.name}.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%-5p] %d(%r) --> [%t] %l: %m %x %n"/>
+        </layout>
+    </appender>
+    <!-- 对指定的包设定日志级别，主要目的是减少不必要的日志 -->
+    <logger name="com.ibatis" additivity="false">
+        <level value="INFO" />
+    </logger>
+
+    <logger name="com.alibaba.dubbo" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="com.springframework" additivity="false">
+        <level value="INFO"/>
+    </logger>
+
+    <root>
+        <!-- TRACE < DEBUG < INFO < WARN < ERROR < FATAL -->
+        <priority value="DEBUG"/>
+        <!-- 在生产环境下，可以把下行输出到控制台的代码注释掉 -->
+        <appender-ref ref="console"/>
+        <!-- 打印文件 -->
+        <!--<appender-ref ref="logfile"/>-->
+
+    </root>
+
+</log4j:configuration>

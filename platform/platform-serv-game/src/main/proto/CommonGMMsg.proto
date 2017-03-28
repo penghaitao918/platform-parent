@@ -1,0 +1,313 @@
+import "CommonGMStruct.proto";
+
+package common.ffd.gm;
+
+option optimize_for = LITE_RUNTIME;
+option java_package = "com.fanfandou.platform.serv.game.entity.tol.gm";
+
+// GM服协议开始标志
+
+message Msg_MsgBeginFlag_GM_Server
+
+{
+
+
+
+}
+
+
+
+// GM协议
+
+message Msg_Gm2Logic_GM_Req
+
+{
+
+	optional string m_serial_number = 1;			// 消息流水号
+
+	optional uint32 m_type = 2;						// 命令枚举，对应GmMsgType
+
+	optional uint32 m_account_id = 3;				// 角色ID
+
+	optional uint32 m_server_id = 4;				// 服务器ID
+
+	optional GmKeyValueList m_paramList = 5;		// 参数键值对列表
+
+}
+
+message Msg_Logic2Gm_GM_Res
+
+{
+
+	optional string m_serial_number = 1;			// 消息流水号
+
+	optional uint32 m_type = 2;						// 命令枚举，对应GmMsgType
+
+	optional uint32 m_account_id = 3;				// 角色ID
+
+	optional uint32 m_server_id = 4;				// 服务器ID
+
+	optional GmKeyValueList	m_RetInfo = 5;			// 结果键值对列表
+
+	optional uint32 m_ret = 6;						// 结果，对应GMErrorCode
+
+}
+
+
+
+// GM公告
+
+message Msg_Gm2Logic_Notice_Req
+
+{
+
+	optional string m_serial_number = 1;			// 消息流水号
+
+	repeated GmNotice m_notice = 2;					// 走马灯公告列表
+
+}
+
+message Msg_Logic2Gm_Notice_Res
+
+{
+
+	optional string m_serial_number = 1;			// 消息流水号
+
+	optional uint32 m_ret = 2;						// 结果，对应GMErrorCode
+
+}
+
+
+
+// 运营活动配置刷新
+
+message Msg_Gm2Logic_TableRefresh_Req
+
+{
+
+	optional string m_serial_number = 1;			// 消息流水号
+
+	optional string m_table_name = 2;				// 待刷新的表名
+
+	repeated GmTableValueList m_rows = 3;			// 待刷新的行
+
+}
+
+message Msg_Logic2Gm_TableRefresh_Res
+
+{
+
+	optional string m_serial_number = 1;			// 消息流水号
+
+	optional uint32 m_ret = 2;						// 结果，对应GMErrorCode
+
+}
+
+
+
+
+
+//游戏充值
+
+message Msg_Gm2Logic_Deposit_Req
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_account_id = 2;				// 账号id
+
+	required uint32 m_server_id = 3;				// 服id
+
+	required uint32 m_rmb = 4;						// 充值金额：rmb（单位：分）
+	required uint32 m_money = 5;					// 充值金额：翻翻豆钻石
+
+}
+
+message Msg_Logic2Gm_Deposit_Res
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_res = 2;						// 充值结果GMErrorCode
+
+}
+
+
+
+//系统邮件
+
+message Msg_Gm2Logic_Mail_Req
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_account_id = 2;				// 账号id
+
+	required uint32 m_server_id = 3;				// 服id
+
+	required string m_title = 4;					// 邮件标题
+
+	required string m_contents = 5;					// 邮件内容
+
+	repeated uint32 m_item_ids = 6;					// 邮件附件：道具id
+
+	repeated uint32 m_item_counts = 7;				// 邮件附件：道具数量
+
+	required uint32 m_hole_second = 8;				// 保留时间（秒）
+
+}
+
+message Msg_Logic2Gm_Mail_Res
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_res = 2;						// 邮件结果GMErrorCode
+
+}
+
+
+
+
+//游戏商城购买
+
+message Msg_Gm2Logic_Shop_Req
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_account_id = 2;				// 账号id
+
+	required uint32 m_server_id = 3;				// 服id
+
+	required uint32 m_rmb = 4;						//  购买金额：rmb（单位：分）/钻石现价（单位：个）
+
+	required uint32 m_goods_id = 5;					// 购买商品id
+
+	required uint32 m_type = 6;						// 付款类型：0：rmb，1：钻石
+
+}
+
+message Msg_Logic2Gm_Shop_Res
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_res = 2;						// 购买结果GMErrorCode
+
+}
+
+
+
+//平台通知客户端，服务器转发
+
+message Msg_Gm2Logic_Route_Req
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_account_id = 2;				// 账号id，为0则全服通知
+
+	required uint32 m_server_id = 3;				// 服id
+
+	required uint32 m_type = 4;						// 通知类型GmRouteMsgType
+
+	repeated uint64 m_parm = 5;						// 通知参数
+
+	repeated string m_parm_str = 6;					// 通知参数
+
+}
+
+message Msg_Logic2Gm_Route_Res
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_res = 2;						// 通知结果GMErrorCode
+
+}
+
+
+// 平台通知服务器，服务器给客户端发活动任务
+
+message Msg_Gm2Logic_Activity_Get_Req
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_account_id = 2;				// 账号id
+
+	required uint32 m_server_id = 3;				// 服id
+
+	required uint32 m_activity_id = 4;				// 返回给服务器活动ID
+
+    required uint64 m_begin_time = 5;				// 该活动的开始时间戳
+
+}
+
+message Msg_Logic2Gm_Activity_Get_Res
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_res = 2;						// 通知结果GMErrorCode
+
+}
+
+
+// 平台通知服务器，服务器返给客户端结算活动任务
+
+message Msg_Gm2Logic_Activity_Finsh_Req
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_account_id = 2;				// 账号id
+
+	required uint32 m_server_id = 3;				// 服id
+
+	required uint32 m_activity_id = 4;				// 返回给服务器活动ID
+
+	required uint32 m_task_id = 5;					// 返回给服务器活动子项目的任务ID
+
+}
+
+
+
+message Msg_Logic2Gm_Activity_Finsh_Res
+
+{
+
+	required string m_serial_number = 1;			// 消息流水号
+
+	required uint32 m_res = 2;						// 通知结果GMErrorCode
+
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// GM服协议结束标志
+
+message Msg_MsgEndFlag_GM_Server
+
+{
+
+
+
+}

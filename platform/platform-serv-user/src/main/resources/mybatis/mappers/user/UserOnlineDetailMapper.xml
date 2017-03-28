@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.platform.serv.user.dao.UserOnlineDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.fanfandou.platform.api.user.entity.UserOnlineDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="idcard_id" property="idcardId" jdbcType="INTEGER" />
+    <result column="online_seconds" property="onlineSeconds" jdbcType="INTEGER" />
+    <result column="offline_seconds" property="offlineSeconds" jdbcType="INTEGER" />
+    <result column="is_online" property="isOnline" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="online_time" property="onlineTime" jdbcType="TIMESTAMP" />
+    <result column="offline_time" property="offlineTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="game_id" property="gameId" jdbcType="INTEGER" />
+    <result column="area_id" property="areaId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, idcard_id, online_seconds, offline_seconds, is_online, create_time, 
+    online_time, offline_time, last_update_time, game_id, area_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fanfandou.platform.api.user.entity.UserOnlineDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user_online_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_online_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_online_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fanfandou.platform.api.user.entity.UserOnlineDetail" >
+    insert into user_online_detail (id, user_id, idcard_id, 
+      online_seconds, offline_seconds, is_online, 
+      create_time, online_time, offline_time, 
+      last_update_time, game_id, area_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{idcardId,jdbcType=INTEGER}, 
+      #{onlineSeconds,jdbcType=INTEGER}, #{offlineSeconds,jdbcType=INTEGER}, #{isOnline,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{onlineTime,jdbcType=TIMESTAMP}, #{offlineTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdateTime,jdbcType=TIMESTAMP}, #{gameId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fanfandou.platform.api.user.entity.UserOnlineDetail" >
+    insert into user_online_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="idcardId != null" >
+        idcard_id,
+      </if>
+      <if test="onlineSeconds != null" >
+        online_seconds,
+      </if>
+      <if test="offlineSeconds != null" >
+        offline_seconds,
+      </if>
+      <if test="isOnline != null" >
+        is_online,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="onlineTime != null" >
+        online_time,
+      </if>
+      <if test="offlineTime != null" >
+        offline_time,
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time,
+      </if>
+      <if test="gameId != null" >
+        game_id,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="idcardId != null" >
+        #{idcardId,jdbcType=INTEGER},
+      </if>
+      <if test="onlineSeconds != null" >
+        #{onlineSeconds,jdbcType=INTEGER},
+      </if>
+      <if test="offlineSeconds != null" >
+        #{offlineSeconds,jdbcType=INTEGER},
+      </if>
+      <if test="isOnline != null" >
+        #{isOnline,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onlineTime != null" >
+        #{onlineTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="offlineTime != null" >
+        #{offlineTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gameId != null" >
+        #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fanfandou.platform.api.user.entity.UserOnlineDetailExample" resultType="java.lang.Integer" >
+    select count(*) from user_online_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_online_detail
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.idcardId != null" >
+        idcard_id = #{record.idcardId,jdbcType=INTEGER},
+      </if>
+      <if test="record.onlineSeconds != null" >
+        online_seconds = #{record.onlineSeconds,jdbcType=INTEGER},
+      </if>
+      <if test="record.offlineSeconds != null" >
+        offline_seconds = #{record.offlineSeconds,jdbcType=INTEGER},
+      </if>
+      <if test="record.isOnline != null" >
+        is_online = #{record.isOnline,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.onlineTime != null" >
+        online_time = #{record.onlineTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.offlineTime != null" >
+        offline_time = #{record.offlineTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdateTime != null" >
+        last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gameId != null" >
+        game_id = #{record.gameId,jdbcType=INTEGER},
+      </if>
+      <if test="record.areaId != null" >
+        area_id = #{record.areaId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_online_detail
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      idcard_id = #{record.idcardId,jdbcType=INTEGER},
+      online_seconds = #{record.onlineSeconds,jdbcType=INTEGER},
+      offline_seconds = #{record.offlineSeconds,jdbcType=INTEGER},
+      is_online = #{record.isOnline,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      online_time = #{record.onlineTime,jdbcType=TIMESTAMP},
+      offline_time = #{record.offlineTime,jdbcType=TIMESTAMP},
+      last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+      game_id = #{record.gameId,jdbcType=INTEGER},
+      area_id = #{record.areaId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fanfandou.platform.api.user.entity.UserOnlineDetail" >
+    update user_online_detail
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="idcardId != null" >
+        idcard_id = #{idcardId,jdbcType=INTEGER},
+      </if>
+      <if test="onlineSeconds != null" >
+        online_seconds = #{onlineSeconds,jdbcType=INTEGER},
+      </if>
+      <if test="offlineSeconds != null" >
+        offline_seconds = #{offlineSeconds,jdbcType=INTEGER},
+      </if>
+      <if test="isOnline != null" >
+        is_online = #{isOnline,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onlineTime != null" >
+        online_time = #{onlineTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="offlineTime != null" >
+        offline_time = #{offlineTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gameId != null" >
+        game_id = #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fanfandou.platform.api.user.entity.UserOnlineDetail" >
+    update user_online_detail
+    set user_id = #{userId,jdbcType=BIGINT},
+      idcard_id = #{idcardId,jdbcType=INTEGER},
+      online_seconds = #{onlineSeconds,jdbcType=INTEGER},
+      offline_seconds = #{offlineSeconds,jdbcType=INTEGER},
+      is_online = #{isOnline,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      online_time = #{onlineTime,jdbcType=TIMESTAMP},
+      offline_time = #{offlineTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      game_id = #{gameId,jdbcType=INTEGER},
+      area_id = #{areaId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

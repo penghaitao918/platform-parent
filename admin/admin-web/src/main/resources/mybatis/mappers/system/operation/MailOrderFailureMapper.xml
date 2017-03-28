@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.admin.operation.dao.MailOrderFailureMapper">
+
+    <resultMap type="com.fanfandou.admin.operation.entity.MailOrderFailure" id="mailOrderFailureMapper">
+        <id property="id" column="id"/>
+        <result property="failureReasons" column="failure_reasons"/>
+        <result property="createTime" column="create_time"/>
+        <result property="remark" column="remark"/>
+        <result property="mailOrderId" column="mail_order_id"/>
+        <result property="mailTitle" column="mail_title"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="mailOrderFailureMapper">
+		<![CDATA[
+
+
+
+
+
+
+                select * from game_mail_order_failure
+
+
+
+
+
+
+        ]]>
+	</select>
+
+    <delete id="delete" parameterType="int">
+		<![CDATA[
+
+
+
+
+
+
+		    delete from game_mail_order_failure where id = #{id}
+
+
+
+
+
+
+        ]]>
+	</delete>
+
+    <select id="selectById" resultMap="mailOrderFailureMapper" parameterType="int">
+		<![CDATA[
+
+
+
+
+
+
+		   select * from game_mail_order_failure where id = #{id}
+
+
+
+
+
+
+        ]]>
+	</select>
+
+    <insert id="insert" parameterType="com.fanfandou.admin.operation.entity.MailOrderFailure">
+	    <![CDATA[
+
+
+
+
+
+
+	     INSERT INTO game_mail_order_failure (failure_reasons,create_time,remark,mail_order_id,mail_title) VALUES (
+	        #{failureReasons},
+            #{createTime},
+            #{remark},
+            #{mailOrderId},
+            #{mailTitle}
+	)
+
+
+
+
+
+
+        ]]>
+	</insert>
+
+    <update id="update" parameterType="com.fanfandou.admin.operation.entity.MailOrderFailure">
+
+         <![CDATA[
+
+
+        UPDATE game_mail_order_failure SET
+            failure_reasons = #{failureReasons},
+            create_time = #{createTime},
+            remark = #{remark},
+            mail_order_id = #{mailOrderId},
+            mail_title = #{mailTitle}
+        WHERE
+            id = #{id,jdbcType=INTEGER}
+
+
+        ]]>
+	</update>
+
+    <select id="pageList" resultMap="mailOrderFailureMapper" parameterType="java.util.Map">
+
+        select * from game_mail_order_failure
+        where create_time between #{from,jdbcType=TIMESTAMP} and #{to,jdbcType=TIMESTAMP}
+        <if test="mailTitle != null">
+            and mail_title LIKE #{mailTitle,jdbcType=VARCHAR}
+        </if>
+
+        order by ${str1} ${str2}
+        limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+
+    </select>
+
+
+    <select id="totalCount" resultType="int">
+
+
+        select count(*) from game_mail_order_failure
+        where create_time between #{from,jdbcType=TIMESTAMP} and #{to,jdbcType=TIMESTAMP}
+        <if test="mailTitle != null">
+            and mail_title LIKE #{mailTitle,jdbcType=VARCHAR}
+        </if>
+
+
+    </select>
+</mapper>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.platform.serv.game.dao.GameToyBatchMapper" >
+  <resultMap id="BaseResultMap" type="com.fanfandou.platform.api.game.entity.GameToyBatch" >
+    <id column="batch_id" property="batchId" jdbcType="INTEGER" />
+    <result column="batch_code" property="batchCode" jdbcType="VARCHAR" />
+    <result column="max_code" property="maxCode" jdbcType="INTEGER" />
+    <result column="active_code" property="activeCode" jdbcType="INTEGER" />
+    <result column="toy_type" property="toyType" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="game_id" property="gameId" jdbcType="INTEGER" />
+    <result column="site_id" property="siteId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    batch_id, batch_code, max_code, toy_type, active_code, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fanfandou.platform.api.game.entity.GameToyBatchExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from game_toy_batch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="getMaxCode" resultType="int">
+    SELECT SUM(max_code) FROM game_toy_batch
+  </select>
+
+  <select id="activeCodeBatch" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM game_toy_batch WHERE active_code <![CDATA[ < ]]> max_code ORDER BY max_code ASC
+  </select>
+
+  <select id="selectBatchByType" resultMap="BaseResultMap" parameterType="int">
+    SELECT <include refid="Base_Column_List" /> FROM game_toy_batch WHERE toy_type = #{toyType,jdbcType=INTEGER} ORDER BY batch_id ASC
+  </select>
+
+  <select id="selectGameToyBatchForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT * FROM game_toy_batch WHERE 1 = 1
+    <if test="batchCode != null" >
+      and batch_code = #{batchCode,jdbcType=VARCHAR}
+    </if>
+    <if test="gameId != null" >
+      and game_id = #{gameId,jdbcType=INTEGER}
+    </if>
+    <if test="siteId != null" >
+      and site_id = #{siteId,jdbcType=INTEGER}
+    </if>
+    <if test="toyType != null" >
+      and toy_type = #{toyType,jdbcType=INTEGER}
+    </if>
+    <if test="from != null and to != null" >
+      and create_time between #{from,jdbcType=TIMESTAMP} and #{to,jdbcType=TIMESTAMP}
+    </if>
+    <if test="from != null and to == null" >
+      and create_time <![CDATA[ >= ]]> #{from,jdbcType=TIMESTAMP}
+    </if>
+    <if test="from == null and to != null" >
+      and create_time <![CDATA[ <= ]]> #{to,jdbcType=TIMESTAMP}
+    </if>
+    <if test="sort != null" >
+      order by #{order,jdbcType=VARCHAR} #{sort,jdbcType=VARCHAR}
+    </if>
+    limit #{startNum,jdbcType=INTEGER},#{endNum,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectGameToyBatchForPageTest" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT * FROM game_toy_batch WHERE 1 = 1
+    <if test="gameToyBatch.batchCode != null" >
+      and batch_code = #{gameToyBatch.batchCode,jdbcType=VARCHAR}
+    </if>
+    <if test="gameToyBatch.gameId != null" >
+      and game_id = #{gameToyBatch.gameId,jdbcType=INTEGER}
+    </if>
+    <if test="gameToyBatch.siteId != null" >
+      and site_id = #{gameToyBatch.siteId,jdbcType=INTEGER}
+    </if>
+    <if test="gameToyBatch.toyType != null" >
+      and toy_type = #{gameToyBatch.toyType,jdbcType=INTEGER}
+    </if>
+
+    <if test="page.sort != null" >
+      order by #{page.order,jdbcType=VARCHAR} #{page.sort,jdbcType=VARCHAR}
+    </if>
+    limit #{page.pageIndex,jdbcType=INTEGER},#{page.pageSize,jdbcType=INTEGER}
+  </select>
+
+  <select id="totalCount"  resultType="int" parameterType="java.util.Map">
+    SELECT COUNT(*) FROM game_toy_batch WHERE 1 = 1
+    <if test="batchCode != null" >
+      and batch_code = #{batchCode,jdbcType=VARCHAR}
+    </if>
+    <if test="gameId != null" >
+      and game_id = #{gameId,jdbcType=INTEGER}
+    </if>
+    <if test="siteId != null" >
+      and site_id = #{siteId,jdbcType=INTEGER}
+    </if>
+    <if test="toyType != null" >
+      and toy_type = #{toyType,jdbcType=INTEGER}
+    </if>
+    <if test="from != null and to != null" >
+      and create_time between #{from,jdbcType=TIMESTAMP} and #{to,jdbcType=TIMESTAMP}
+    </if>
+    <if test="from != null and to == null" >
+      and create_time <![CDATA[ >= ]]> #{from,jdbcType=TIMESTAMP}
+    </if>
+    <if test="from == null and to != null" >
+      and create_time <![CDATA[ <= ]]> #{to,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from game_toy_batch
+    where batch_id = #{batchId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from game_toy_batch
+    where batch_id = #{batchId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fanfandou.platform.api.game.entity.GameToyBatch" >
+    insert into game_toy_batch (batch_id, batch_code, max_code, 
+      active_code, create_time)
+    values (#{batchId,jdbcType=INTEGER}, #{batchCode,jdbcType=VARCHAR}, #{maxCode,jdbcType=INTEGER}, 
+      #{activeCode,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fanfandou.platform.api.game.entity.GameToyBatch" >
+    insert into game_toy_batch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="batchId != null" >
+        batch_id,
+      </if>
+      <if test="batchCode != null" >
+        batch_code,
+      </if>
+      <if test="maxCode != null" >
+        max_code,
+      </if>
+      <if test="activeCode != null" >
+        active_code,
+      </if>
+      <if test="toyType != null" >
+        toy_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="siteId != null" >
+        site_id,
+      </if>
+      <if test="gameId != null" >
+        game_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="batchId != null" >
+        #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="batchCode != null" >
+        #{batchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="maxCode != null" >
+        #{maxCode,jdbcType=INTEGER},
+      </if>
+      <if test="activeCode != null" >
+        #{activeCode,jdbcType=INTEGER},
+      </if>
+      <if test="toyType != null" >
+        #{toyType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gameId != null" >
+        #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="siteId != null" >
+        #{siteId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fanfandou.platform.api.game.entity.GameToyBatchExample" resultType="java.lang.Integer" >
+    select count(*) from game_toy_batch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update game_toy_batch
+    <set >
+      <if test="record.batchId != null" >
+        batch_id = #{record.batchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.batchCode != null" >
+        batch_code = #{record.batchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxCode != null" >
+        max_code = #{record.maxCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.activeCode != null" >
+        active_code = #{record.activeCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.toyType != null" >
+        toy_type = #{record.toyType,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gameId != null" >
+        game_id = #{record.gameId,jdbcType=INTEGER},
+      </if>
+      <if test="record.siteId != null" >
+        site_id = #{record.siteId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update game_toy_batch
+    set batch_id = #{record.batchId,jdbcType=INTEGER},
+      batch_code = #{record.batchCode,jdbcType=VARCHAR},
+      max_code = #{record.maxCode,jdbcType=INTEGER},
+      toy_type = #{record.toyType,jdbcType=INTEGER},
+      active_code = #{record.activeCode,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fanfandou.platform.api.game.entity.GameToyBatch" >
+    update game_toy_batch
+    <set >
+      <if test="batchCode != null" >
+        batch_code = #{batchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="maxCode != null" >
+        max_code = #{maxCode,jdbcType=INTEGER},
+      </if>
+      <if test="toyType != null" >
+        toy_type = #{toyType,jdbcType=INTEGER},
+      </if>
+      <if test="activeCode != null" >
+        active_code = #{activeCode,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where batch_id = #{batchId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fanfandou.platform.api.game.entity.GameToyBatch" >
+    update game_toy_batch
+    set batch_code = #{batchCode,jdbcType=VARCHAR},
+      max_code = #{maxCode,jdbcType=INTEGER},
+      active_code = #{activeCode,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where batch_id = #{batchId,jdbcType=INTEGER}
+  </update>
+</mapper>

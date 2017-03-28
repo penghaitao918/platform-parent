@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.platform.serv.game.dao.GameToyMapper" >
+  <resultMap id="BaseResultMap" type="com.fanfandou.platform.api.game.entity.GameToy" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="toy_code" property="toyCode" jdbcType="BIGINT" />
+    <result column="game_id" property="gameId" jdbcType="INTEGER" />
+    <result column="site_id" property="siteId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="bind_uid" property="bindUid" jdbcType="BIGINT" />
+    <result column="bind_game" property="bindGame" jdbcType="INTEGER" />
+    <result column="bind_site" property="bindSite" jdbcType="INTEGER" />
+    <result column="bind_area" property="bindArea" jdbcType="INTEGER" />
+    <result column="bind_status" property="bindStatus" jdbcType="TINYINT" />
+    <result column="bind_time" property="bindTime" jdbcType="TIMESTAMP" />
+    <result column="prod_time" property="prodTime" jdbcType="TIMESTAMP" />
+    <result column="batch_id" property="batchId" jdbcType="INTEGER" />
+    <result column="toy_guid" property="toyGuid" jdbcType="BIGINT" />
+    <result column="toy_type" property="toyType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, toy_code, game_id, site_id, create_time, bind_uid, bind_game, bind_site, bind_area,
+    bind_status, bind_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fanfandou.platform.api.game.entity.GameToyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from game_toy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from game_toy
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByUser" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * from game_toy where bind_uid = #{bindUid,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select * from game_toy where toy_code = #{toyCode,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByToyGuid" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * from game_toy where toy_guid = #{toyGuid,jdbcType=BIGINT}
+  </select>
+
+  <select id="getBindUid" resultType="long" parameterType="java.lang.Long" >
+    select * from game_toy where toy_guid = #{toyGuid,jdbcType=BIGINT}
+  </select>
+
+  <select id="getGameToyBySelective" resultMap="BaseResultMap" parameterType="map">
+    SELECT * FROM game_toy WHERE 1 = 1
+    <if test="id != null" >
+      AND id = #{id,jdbcType=BIGINT}
+    </if>
+    <if test="toyCode != null" >
+      AND toy_code = #{toyCode,jdbcType=BIGINT}
+    </if>
+    <if test="gameId != null" >
+      AND game_id = #{gameId,jdbcType=INTEGER}
+    </if>
+    <if test="siteId != null" >
+      AND site_id = #{siteId,jdbcType=INTEGER}
+    </if>
+    <if test="createTime != null" >
+      AND create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="bindUid != null" >
+      AND bind_uid = #{bindUid,jdbcType=BIGINT}
+    </if>
+    <if test="bindGame != null" >
+      AND bind_game = #{bindGame,jdbcType=INTEGER}
+    </if>
+    <if test="bindSite != null" >
+      AND bind_site = #{bindSite,jdbcType=INTEGER}
+    </if>
+    <if test="toyType != null" >
+      AND toy_type = #{toyType,jdbcType=INTEGER}
+    </if>
+    <if test="bindArea != null" >
+      AND bind_area = #{bindArea,jdbcType=INTEGER}
+    </if>
+    <if test="bindTime != null" >
+      AND bind_time = #{bindTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="bindStatus != null" >
+      AND bind_status = #{bindStatus,jdbcType=TINYINT}
+    </if>
+    <if test="from != null and to != null" >
+      and prod_time between #{from,jdbcType=TIMESTAMP} and #{to,jdbcType=TIMESTAMP}
+    </if>
+    <if test="from != null and to == null" >
+      and prod_time <![CDATA[ >= ]]> #{from,jdbcType=TIMESTAMP}
+    </if>
+    <if test="from == null and to != null" >
+      and prod_time <![CDATA[ <= ]]> #{to,jdbcType=TIMESTAMP}
+    </if>
+    <if test="prodTime != null" >
+      AND prod_time = #{prodTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="toyType != null" >
+      AND toy_type = #{toyType,jdbcType=INTEGER}
+    </if>
+    <if test="batchId != null" >
+      AND batch_id = #{batchId,jdbcType=INTEGER}
+    </if>
+    <if test="toyGuid != null" >
+      AND toy_guid = #{toyGuid,jdbcType=BIGINT}
+    </if>
+    <if test="sort != null" >
+      order by #{order,jdbcType=VARCHAR} #{sort,jdbcType=VARCHAR}
+    </if>
+    limit #{startNum,jdbcType=INTEGER},#{endNum,jdbcType=INTEGER}
+
+  </select>
+
+  <select id="checkBindCode"  resultMap="BaseResultMap" parameterType="java.lang.Long">
+    SELECT * FROM game_toy WHERE toy_guid = #{toyGuid,jdbcType=BIGINT}
+  </select>
+
+  <select id="getActedToyType"  resultType="int" parameterType="java.lang.Long">
+    SELECT DISTINCT toy_type FROM game_toy WHERE bind_uid = #{bindUid,jdbcType=BIGINT} and bind_status = 3
+  </select>
+
+  <select id="getMaxToyCode"  resultMap="BaseResultMap" parameterType="java.lang.Long">
+    SELECT * FROM game_toy ORDER BY toy_code DESC
+  </select>
+
+  <select id="totalCount" resultType="int" parameterType="java.util.Map">
+    SELECT count(*) FROM game_toy WHERE 1 = 1
+    <if test="id != null" >
+      AND id = #{id,jdbcType=BIGINT}
+    </if>
+    <if test="toyCode != null" >
+      AND toy_code = #{toyCode,jdbcType=BIGINT}
+    </if>
+    <if test="gameId != null" >
+      AND game_id = #{gameId,jdbcType=INTEGER}
+    </if>
+    <if test="siteId != null" >
+      AND site_id = #{siteId,jdbcType=INTEGER}
+    </if>
+    <if test="createTime != null" >
+      AND create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="bindUid != null" >
+      AND bind_uid = #{bindUid,jdbcType=BIGINT}
+    </if>
+    <if test="bindGame != null" >
+      AND bind_game = #{bindGame,jdbcType=INTEGER}
+    </if>
+    <if test="bindSite != null" >
+      AND bind_site = #{bindSite,jdbcType=INTEGER}
+    </if>
+    <if test="bindArea != null" >
+      AND bind_area = #{bindArea,jdbcType=INTEGER}
+    </if>
+    <if test="bindTime != null" >
+      AND bind_time = #{bindTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="bindStatus != null" >
+      AND bind_status = #{bindStatus,jdbcType=TINYINT}
+    </if>
+    <if test="toyType != null" >
+      AND toy_type = #{toyType,jdbcType=INTEGER}
+    </if>
+    <if test="batchId != null" >
+      AND batch_id = #{batchId,jdbcType=INTEGER}
+    </if>
+    <if test="toyGuid != null" >
+      AND toy_guid = #{toyGuid,jdbcType=BIGINT}
+    </if>
+    <if test="from != null and to != null" >
+      and prod_time between #{from,jdbcType=TIMESTAMP} and #{to,jdbcType=TIMESTAMP}
+    </if>
+    <if test="from != null and to == null" >
+      and prod_time <![CDATA[ >= ]]> #{from,jdbcType=TIMESTAMP}
+    </if>
+    <if test="from == null and to != null" >
+      and prod_time <![CDATA[ <= ]]> #{to,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+
+  <select id="selectCountAll"  resultMap="BaseResultMap">
+    SELECT * FROM game_toy ORDER BY toy_code DESC
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from game_toy
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fanfandou.platform.api.game.entity.GameToy" >
+    insert into game_toy (id, toy_code, game_id,
+      site_id, create_time, bind_uid, toy_type,batch_id,toy_guid,
+      bind_game, bind_site, bind_area, prod_time,
+      bind_status, bind_time)
+    values (#{id,jdbcType=BIGINT}, #{toyCode,jdbcType=BIGINT}, #{gameId,jdbcType=INTEGER},#{toyType,jdbcType=INTEGER},
+      #{siteId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{bindUid,jdbcType=BIGINT}, #{batchId,jdbcType=INTEGER},
+      #{bindGame,jdbcType=INTEGER}, #{bindSite,jdbcType=INTEGER}, #{bindArea,jdbcType=INTEGER}, #{toyGuid,jdbcType=BIGINT},
+      #{bindStatus,jdbcType=TINYINT}, #{bindTime,jdbcType=TIMESTAMP}, #{prodTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fanfandou.platform.api.game.entity.GameToy" >
+    insert into game_toy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="toyCode != null" >
+        toy_code,
+      </if>
+      <if test="gameId != null" >
+        game_id,
+      </if>
+      <if test="siteId != null" >
+        site_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="bindUid != null" >
+        bind_uid,
+      </if>
+      <if test="bindGame != null" >
+        bind_game,
+      </if>
+      <if test="bindSite != null" >
+        bind_site,
+      </if>
+      <if test="bindArea != null" >
+        bind_area,
+      </if>
+      <if test="bindStatus != null" >
+        bind_status,
+      </if>
+      <if test="bindTime != null" >
+        bind_time,
+      </if>
+      <if test="prodTime != null" >
+        prod_time,
+      </if>
+      <if test="toyType != null" >
+        toy_type,
+      </if>
+      <if test="batchId != null" >
+        batch_id,
+      </if>
+      <if test="toyGuid != null" >
+        toy_guid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="toyCode != null" >
+        #{toyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gameId != null" >
+        #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="siteId != null" >
+        #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bindUid != null" >
+        #{bindUid,jdbcType=BIGINT},
+      </if>
+      <if test="bindGame != null" >
+        #{bindGame,jdbcType=INTEGER},
+      </if>
+      <if test="bindSite != null" >
+        #{bindSite,jdbcType=INTEGER},
+      </if>
+      <if test="bindArea != null" >
+        #{bindArea,jdbcType=INTEGER},
+      </if>
+      <if test="bindStatus != null" >
+        #{bindStatus,jdbcType=TINYINT},
+      </if>
+      <if test="bindTime != null" >
+        #{bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prodTime != null" >
+        #{prodTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toyType != null" >
+        #{toyType,jdbcType=INTEGER},
+      </if>
+      <if test="batchId != null" >
+        #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="toyGuid != null" >
+        #{toyGuid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fanfandou.platform.api.game.entity.GameToyExample" resultType="java.lang.Integer" >
+    select count(*) from game_toy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update game_toy
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.toyCode != null" >
+        toy_code = #{record.toyCode,jdbcType=BIGINT},
+      </if>
+      <if test="record.gameId != null" >
+        game_id = #{record.gameId,jdbcType=INTEGER},
+      </if>
+      <if test="record.siteId != null" >
+        site_id = #{record.siteId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bindUid != null" >
+        bind_uid = #{record.bindUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.bindGame != null" >
+        bind_game = #{record.bindGame,jdbcType=INTEGER},
+      </if>
+      <if test="record.bindSite != null" >
+        bind_site = #{record.bindSite,jdbcType=INTEGER},
+      </if>
+      <if test="record.bindArea != null" >
+        bind_area = #{record.bindArea,jdbcType=INTEGER},
+      </if>
+      <if test="record.bindStatus != null" >
+        bind_status = #{record.bindStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.bindTime != null" >
+        bind_time = #{record.bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.prodTime != null" >
+        prod_time = #{record.prodTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.toyType != null" >
+        toy_type = #{record.toyType,jdbcType=INTEGER},
+      </if>
+      <if test="record.batchId != null" >
+        batch_id = #{record.batchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.toyGuid != null" >
+        toy_guid = #{record.toyGuid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update game_toy
+    set id = #{record.id,jdbcType=BIGINT},
+      toy_code = #{record.toyCode,jdbcType=BIGINT},
+      game_id = #{record.gameId,jdbcType=INTEGER},
+      site_id = #{record.siteId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      bind_uid = #{record.bindUid,jdbcType=BIGINT},
+      bind_game = #{record.bindGame,jdbcType=INTEGER},
+      bind_site = #{record.bindSite,jdbcType=INTEGER},
+      bind_area = #{record.bindArea,jdbcType=INTEGER},
+      bind_status = #{record.bindStatus,jdbcType=TINYINT},
+      bind_time = #{record.bindTime,jdbcType=TIMESTAMP},
+      prod_time = #{record.toyGuid,jdbcType=TIMESTAMP},
+      toy_type = #{record.toyType,jdbcType=INTEGER},
+      batch_id = #{record.batchId,jdbcType=INTEGER},
+      toy_guid = #{record.toyGuid,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fanfandou.platform.api.game.entity.GameToy" >
+    update game_toy
+    <set >
+      <if test="toyCode != null" >
+        toy_code = #{toyCode,jdbcType=BIGINT},
+      </if>
+      <if test="gameId != null" >
+        game_id = #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="siteId != null" >
+        site_id = #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bindUid != null" >
+        bind_uid = #{bindUid,jdbcType=BIGINT},
+      </if>
+      <if test="bindGame != null" >
+        bind_game = #{bindGame,jdbcType=INTEGER},
+      </if>
+      <if test="bindSite != null" >
+        bind_site = #{bindSite,jdbcType=INTEGER},
+      </if>
+      <if test="bindArea != null" >
+        bind_area = #{bindArea,jdbcType=INTEGER},
+      </if>
+      <if test="bindStatus != null" >
+        bind_status = #{bindStatus,jdbcType=TINYINT},
+      </if>
+      <if test="bindTime != null" >
+        bind_time = #{bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prodTime != null" >
+        prod_time = #{prodTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toyType != null" >
+        toy_type = #{toyType,jdbcType=INTEGER},
+      </if>
+      <if test="batchId != null" >
+        batch_id = #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="toyGuid != null" >
+        toy_guid = #{toyGuid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByCodeSelective" parameterType="com.fanfandou.platform.api.game.entity.GameToy" >
+    update game_toy
+    <set >
+      <if test="gameId != null" >
+        game_id = #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="siteId != null" >
+        site_id = #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bindUid != null" >
+        bind_uid = #{bindUid,jdbcType=BIGINT},
+      </if>
+      <if test="bindGame != null" >
+        bind_game = #{bindGame,jdbcType=INTEGER},
+      </if>
+      <if test="bindSite != null" >
+        bind_site = #{bindSite,jdbcType=INTEGER},
+      </if>
+      <if test="bindArea != null" >
+        bind_area = #{bindArea,jdbcType=INTEGER},
+      </if>
+      <if test="bindStatus != null" >
+        bind_status = #{bindStatus,jdbcType=TINYINT},
+      </if>
+      <if test="bindTime != null" >
+        bind_time = #{bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prodTime != null" >
+        prod_time = #{prodTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toyType != null" >
+        toy_type = #{toyType,jdbcType=INTEGER},
+      </if>
+      <if test="batchId != null" >
+        batch_id = #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="toyGuid != null" >
+        toy_guid = #{toyGuid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where toy_code = #{toyCode,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fanfandou.platform.api.game.entity.GameToy" >
+    update game_toy
+    set toy_code = #{toyCode,jdbcType=BIGINT},
+      game_id = #{gameId,jdbcType=INTEGER},
+      site_id = #{siteId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      bind_uid = #{bindUid,jdbcType=BIGINT},
+      bind_game = #{bindGame,jdbcType=INTEGER},
+      bind_site = #{bindSite,jdbcType=INTEGER},
+      bind_area = #{bindArea,jdbcType=INTEGER},
+      bind_status = #{bindStatus,jdbcType=TINYINT},
+      bind_time = #{bindTime,jdbcType=TIMESTAMP},
+      prod_time = #{record.toyGuid,jdbcType=TIMESTAMP},
+      toy_type = #{record.toyType,jdbcType=INTEGER},
+      batch_id = #{record.batchId,jdbcType=INTEGER},
+      toy_guid = #{record.toyGuid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

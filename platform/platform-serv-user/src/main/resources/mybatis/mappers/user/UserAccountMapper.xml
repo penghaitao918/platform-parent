@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.platform.serv.user.dao.UserAccountMapper">
+    <resultMap id="BaseResultMap" type="com.fanfandou.platform.api.user.entity.UserAccount">
+        <id column="account_id" property="accountId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="site_id" property="siteId" jdbcType="INTEGER"/>
+        <result column="channel" property="channel" jdbcType="VARCHAR"/>
+        <result column="game_id" property="gameId" jdbcType="INTEGER"/>
+        <result column="account_name" property="accountName" jdbcType="VARCHAR"/>
+        <result column="account_type" property="accountType" jdbcType="TINYINT"
+                typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="encrypt_seed" property="encryptSeed" jdbcType="VARCHAR"/>
+        <result column="account_status" property="accountStatus" jdbcType="TINYINT"
+                typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+        <result column="status_extdata" property="statusExtdata" jdbcType="VARCHAR"/>
+        <result column="confirm_status" property="confirmStatus" jdbcType="TINYINT"
+                typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+        <result column="confirm_time" property="confirmTime" jdbcType="TIMESTAMP"/>
+        <result column="confirm_ip" property="confirmIp" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_ip" property="createIp" jdbcType="VARCHAR"/>
+        <result column="create_device_serial" property="createDeviceSerial" jdbcType="VARCHAR"/>
+        <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
+        <result column="last_update_ip" property="lastUpdateIp" jdbcType="VARCHAR"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR"/>
+        <result column="last_login_device_serial" property="lastLoginDeviceSerial" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    account_id, user_id, site_id, channel, game_id, account_name, account_type, password, 
+    encrypt_seed, account_status, status_extdata, confirm_status, confirm_time, confirm_ip, 
+    create_time, create_ip, create_device_serial, last_update_time, last_update_ip, last_login_time, 
+    last_login_ip, last_login_device_serial
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.fanfandou.platform.api.user.entity.UserAccountExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List" />
+        from user_account
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from user_account
+        where account_id = #{accountId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectAccountsByUid" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from user_account
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_account
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.fanfandou.platform.api.user.entity.UserAccount">
+    insert into user_account (account_id, user_id, site_id, 
+      channel, game_id, account_name, 
+      account_type, password, encrypt_seed, 
+      account_status, status_extdata, confirm_status, 
+      confirm_time, confirm_ip, create_time, 
+      create_ip, create_device_serial, last_update_time, 
+      last_update_ip, last_login_time, last_login_ip, 
+      last_login_device_serial)
+    values (#{accountId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{siteId,jdbcType=INTEGER}, 
+      #{channel,jdbcType=VARCHAR}, #{gameId,jdbcType=INTEGER}, #{accountName,jdbcType=VARCHAR}, 
+      #{accountType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      #{password,jdbcType=VARCHAR}, #{encryptSeed,jdbcType=VARCHAR},
+      #{accountStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      #{statusExtdata,jdbcType=VARCHAR},
+      #{confirmStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      #{confirmTime,jdbcType=TIMESTAMP}, #{confirmIp,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createIp,jdbcType=VARCHAR}, #{createDeviceSerial,jdbcType=VARCHAR}, #{lastUpdateTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdateIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR}, 
+      #{lastLoginDeviceSerial,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.fanfandou.platform.api.user.entity.UserAccount">
+        insert into user_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="siteId != null">
+                site_id,
+            </if>
+            <if test="channel != null">
+                channel,
+            </if>
+            <if test="gameId != null">
+                game_id,
+            </if>
+            <if test="accountName != null">
+                account_name,
+            </if>
+            <if test="accountType != null">
+                account_type,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="encryptSeed != null">
+                encrypt_seed,
+            </if>
+            <if test="accountStatus != null">
+                account_status,
+            </if>
+            <if test="statusExtdata != null">
+                status_extdata,
+            </if>
+            <if test="confirmStatus != null">
+                confirm_status,
+            </if>
+            <if test="confirmTime != null">
+                confirm_time,
+            </if>
+            <if test="confirmIp != null">
+                confirm_ip,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createIp != null">
+                create_ip,
+            </if>
+            <if test="createDeviceSerial != null">
+                create_device_serial,
+            </if>
+            <if test="lastUpdateTime != null">
+                last_update_time,
+            </if>
+            <if test="lastUpdateIp != null">
+                last_update_ip,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip,
+            </if>
+            <if test="lastLoginDeviceSerial != null">
+                last_login_device_serial,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">
+                #{accountId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="siteId != null">
+                #{siteId,jdbcType=INTEGER},
+            </if>
+            <if test="channel != null">
+                #{channel,jdbcType=VARCHAR},
+            </if>
+            <if test="gameId != null">
+                #{gameId,jdbcType=INTEGER},
+            </if>
+            <if test="accountName != null">
+                #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="accountType != null">
+                #{accountType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="encryptSeed != null">
+                #{encryptSeed,jdbcType=VARCHAR},
+            </if>
+            <if test="accountStatus != null">
+                #{accountStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="statusExtdata != null">
+                #{statusExtdata,jdbcType=VARCHAR},
+            </if>
+            <if test="confirmStatus != null">
+                #{confirmStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="confirmTime != null">
+                #{confirmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="confirmIp != null">
+                #{confirmIp,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createIp != null">
+                #{createIp,jdbcType=VARCHAR},
+            </if>
+            <if test="createDeviceSerial != null">
+                #{createDeviceSerial,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateTime != null">
+                #{lastUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateIp != null">
+                #{lastUpdateIp,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null">
+                #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLoginDeviceSerial != null">
+                #{lastLoginDeviceSerial,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.fanfandou.platform.api.user.entity.UserAccountExample"
+            resultType="java.lang.Integer" >
+        select count(*) from user_account
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <update id="upadteInfosByAccountId" parameterType="com.fanfandou.platform.api.user.entity.UserAccount" >
+      UPDATE user_account
+      <set>
+          <if test="lastLoginIp != null">
+              last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+          </if>
+          <if test="lastLoginTime != null">
+              last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="lastLoginDeviceSerial != null">
+              last_login_device_serial = #{lastLoginDeviceSerial,jdbcType=VARCHAR}
+          </if>
+      </set>
+        where account_id = #{accountId,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByExampleSelective" parameterType="map" >
+        update user_account
+        <set >
+            <if test="record.accountId != null" >
+                account_id = #{record.accountId,jdbcType=BIGINT},
+            </if>
+            <if test="record.userId != null" >
+                user_id = #{record.userId,jdbcType=BIGINT},
+            </if>
+            <if test="record.siteId != null" >
+                site_id = #{record.siteId,jdbcType=INTEGER},
+            </if>
+            <if test="record.channel != null" >
+                channel = #{record.channel,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gameId != null" >
+                game_id = #{record.gameId,jdbcType=INTEGER},
+            </if>
+            <if test="record.accountName != null" >
+                account_name = #{record.accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.accountType != null" >
+                account_type = #{record.accountType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="record.password != null" >
+                password = #{record.password,jdbcType=VARCHAR},
+            </if>
+            <if test="record.encryptSeed != null" >
+                encrypt_seed = #{record.encryptSeed,jdbcType=VARCHAR},
+            </if>
+            <if test="record.accountStatus != null" >
+                account_status = #{record.accountStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="record.statusExtdata != null" >
+                status_extdata = #{record.statusExtdata,jdbcType=VARCHAR},
+            </if>
+            <if test="record.confirmStatus != null" >
+                confirm_status = #{record.confirmStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="record.confirmTime != null" >
+                confirm_time = #{record.confirmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.confirmIp != null" >
+                confirm_ip = #{record.confirmIp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null" >
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.createIp != null" >
+                create_ip = #{record.createIp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createDeviceSerial != null" >
+                create_device_serial = #{record.createDeviceSerial,jdbcType=VARCHAR},
+            </if>
+            <if test="record.lastUpdateTime != null" >
+                last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.lastUpdateIp != null" >
+                last_update_ip = #{record.lastUpdateIp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.lastLoginTime != null" >
+                last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.lastLoginIp != null" >
+                last_login_ip = #{record.lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.lastLoginDeviceSerial != null" >
+                last_login_device_serial = #{record.lastLoginDeviceSerial,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+        update user_account
+        set account_id = #{record.accountId,jdbcType=BIGINT},
+        user_id = #{record.userId,jdbcType=BIGINT},
+        site_id = #{record.siteId,jdbcType=INTEGER},
+        channel = #{record.channel,jdbcType=VARCHAR},
+        game_id = #{record.gameId,jdbcType=INTEGER},
+        account_name = #{record.accountName,jdbcType=VARCHAR},
+        account_type = #{record.accountType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+        password = #{record.password,jdbcType=VARCHAR},
+        encrypt_seed = #{record.encryptSeed,jdbcType=VARCHAR},
+        account_status = #{record.accountStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+        status_extdata = #{record.statusExtdata,jdbcType=VARCHAR},
+        confirm_status = #{record.confirmStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+        confirm_time = #{record.confirmTime,jdbcType=TIMESTAMP},
+        confirm_ip = #{record.confirmIp,jdbcType=VARCHAR},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        create_ip = #{record.createIp,jdbcType=VARCHAR},
+        create_device_serial = #{record.createDeviceSerial,jdbcType=VARCHAR},
+        last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+        last_update_ip = #{record.lastUpdateIp,jdbcType=VARCHAR},
+        last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+        last_login_ip = #{record.lastLoginIp,jdbcType=VARCHAR},
+        last_login_device_serial = #{record.lastLoginDeviceSerial,jdbcType=VARCHAR}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.fanfandou.platform.api.user.entity.UserAccount">
+        update user_account
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="siteId != null">
+                site_id = #{siteId,jdbcType=INTEGER},
+            </if>
+            <if test="channel != null">
+                channel = #{channel,jdbcType=VARCHAR},
+            </if>
+            <if test="gameId != null">
+                game_id = #{gameId,jdbcType=INTEGER},
+            </if>
+            <if test="accountName != null">
+                account_name = #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="accountType != null">
+                account_type =
+                #{accountType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="encryptSeed != null">
+                encrypt_seed = #{encryptSeed,jdbcType=VARCHAR},
+            </if>
+            <if test="accountStatus != null">
+                account_status =
+                #{accountStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="statusExtdata != null">
+                status_extdata = #{statusExtdata,jdbcType=VARCHAR},
+            </if>
+            <if test="confirmStatus != null">
+                confirm_status =
+                #{confirmStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="confirmTime != null">
+                confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="confirmIp != null">
+                confirm_ip = #{confirmIp,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createIp != null">
+                create_ip = #{createIp,jdbcType=VARCHAR},
+            </if>
+            <if test="createDeviceSerial != null">
+                create_device_serial = #{createDeviceSerial,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateTime != null">
+                last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateIp != null">
+                last_update_ip = #{lastUpdateIp,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLoginDeviceSerial != null">
+                last_login_device_serial = #{lastLoginDeviceSerial,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where account_id = #{accountId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.fanfandou.platform.api.user.entity.UserAccount">
+    update user_account
+    set user_id = #{userId,jdbcType=BIGINT},
+      site_id = #{siteId,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=VARCHAR},
+      game_id = #{gameId,jdbcType=INTEGER},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      account_type = #{accountType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      password = #{password,jdbcType=VARCHAR},
+      encrypt_seed = #{encryptSeed,jdbcType=VARCHAR},
+      account_status = #{accountStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      status_extdata = #{statusExtdata,jdbcType=VARCHAR},
+      confirm_status = #{confirmStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+      confirm_ip = #{confirmIp,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      create_device_serial = #{createDeviceSerial,jdbcType=VARCHAR},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      last_update_ip = #{lastUpdateIp,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      last_login_device_serial = #{lastLoginDeviceSerial,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </update>
+    <select id="selectCountByAccountName" parameterType="java.lang.String" resultType="int">
+        select count(*) from user_account where account_name = #{accountName , jdbcType=VARCHAR }
+    </select>
+
+    <update id="modifyPasswordByAccountId" parameterType="com.fanfandou.platform.api.user.entity.UserAccount">
+        update user_account
+        <set>
+        <if test="lastUpdateTime != null">
+            last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="lastUpdateIp != null">
+            last_update_ip = #{lastUpdateIp,jdbcType=VARCHAR},
+        </if>
+        <if test="password != null">
+            password = #{password,jdbcType=VARCHAR},
+        </if>
+        </set>
+        where
+        account_id = #{accountId,jdbcType=BIGINT}
+    </update>
+    <select id="getAccountByName" parameterType="com.fanfandou.platform.api.user.entity.UserAccount" resultMap="BaseResultMap">
+        select * from user_account where account_name = #{accountName, jdbcType=VARCHAR}
+         and account_type = #{accountType, typeHandler=com.fanfandou.common.handler.EnumStatusHandler}
+    </select>
+</mapper>

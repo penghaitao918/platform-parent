@@ -1,0 +1,42 @@
+package common.ffd.account;
+
+option optimize_for = LITE_RUNTIME;
+option java_package = "com.fanfandou.platform.serv.game.entity.tol.account";
+
+/////////////////////////////////////////////////////////////////////////////
+
+//错误码
+
+enum AccountRes
+
+{
+
+	AccountRes_Login_AccountError = 1;			// 账号不存在
+
+	AccountRes_Login_KeyError = 2;				// 密码不匹配
+
+	AccountRes_Login_Success = 3;				// 账号密码验证成功
+
+
+
+	AccountRes_Reg_AccountError = 257;			// 账号注册失败（用户名重复）
+
+	AccountRes_Reg_Success = 258;				// 账号注册成功
+
+	AccountRes_CreatePlayer_ToyNotExists = 513;	// 创建角色时，验证该账号下未激活对应玩具
+	AccountRes_CreatePlayer_ToyExists = 514;	// 创建角色时，验证该账号下已激活对应玩具
+
+	AccountRes_ToyActivate_GuidError = 769;		// 玩具激活失败，玩具唯一识别码错误
+	AccountRes_ToyActivate_TypeError = 770;		// 玩具激活失败，玩具类别错误
+	AccountRes_ToyActivate_OthersBound = 771;	// 玩具已经被其他账号绑定
+	AccountRes_ToyActivate_SelfBound = 772;		// 玩具已经被本账号绑定
+	AccountRes_ToyActivate_BindError = 773;		// 玩具激活失败，数据库绑定操作失败
+	AccountRes_ToyActivate_Success = 774;		// 玩具激活成功
+
+	AccountRes_ToyCheck_GuidError = 1025;		// 检查玩具失败，玩具唯一识别码错误
+	AccountRes_ToyCheck_TypeError = 1026;		// 检查玩具失败，玩具类别错误
+	AccountRes_ToyCheck_OthersBound = 1027;		// 玩具已经被其他账号绑定
+	AccountRes_ToyCheck_SelfBound = 1028;		// 玩具已经被本账号绑定
+	AccountRes_ToyCheck_Success = 1029;			// 检查玩具成功（未被绑定过，是一个新玩具）
+
+}

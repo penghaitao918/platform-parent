@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="game-service" owner="platform"/>
+    <dubbo:protocol name="dubbo" port="20882"/>
+    <dubbo:monitor protocol="registry" />
+    <dubbo:service interface="com.fanfandou.platform.api.game.service.GameToyService" ref="gameToyService"
+                   timeout="30000"/>
+    <dubbo:service interface="com.fanfandou.platform.api.game.service.GameAreaService" ref="gameAreaService"
+                   timeout="30000"/>
+    <dubbo:service interface="com.fanfandou.platform.api.game.service.OperationDispatchService" ref="operationDispatchService"
+                   timeout="30000">
+        <dubbo:method name="sendAntiAddiction" return="false" async="true"/>
+    </dubbo:service>
+    <dubbo:service interface="com.fanfandou.platform.api.game.service.GameRoleService" ref="gameRoleService"
+                   timeout="30000"/>
+
+    <dubbo:reference interface="com.fanfandou.platform.api.user.service.AccountService" id="accountService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.user.service.ProfileService" id="profileService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.user.service.TokenService" id="tokenService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.user.service.UserService" id="userService" check="false"/>
+
+</beans>

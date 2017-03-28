@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.admin.system.dao.RoleMapper">
+
+	<resultMap type="com.fanfandou.admin.system.entity.Role" id="roleMapper">
+		<id property="id" column="id"/>
+		<result property="role" column="role"/>
+		<result property="createTime" column="create_time"/>
+		<result property="description" column="description"/>
+		<result property="available" column="available"/>
+		<result property="memo" column="memo"/>
+	</resultMap>
+
+	<select id="selectAll"  resultMap="roleMapper" >
+		<![CDATA[
+                select * from sys_role
+                 ]]>
+	</select>
+
+	<select id="selRoleByUId" resultMap="roleMapper">
+		<![CDATA[
+		      SELECT * from sys_role where id in (SELECT id2 FROM sys_relation where id1=#{0} and relation_type=#{1})
+              ]]>
+	</select>
+
+	<delete id="delete" parameterType="int">
+		<![CDATA[
+		    delete from sys_role where id = #{id}
+		     ]]>
+	</delete>
+
+	<select id="selectById"  resultMap="roleMapper" parameterType="int">
+		<![CDATA[
+		   select * from sys_role where id = #{id}
+		    ]]>
+	</select>
+
+	<select id="pageList"  resultMap="roleMapper" parameterType="java.util.Map">
+		<![CDATA[
+		   select * from sys_role where role LIKE #{role,jdbcType=VARCHAR}
+		   order by ${str1} ${str2}
+		   limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+		    ]]>
+	</select>
+
+	<select id="totalCount"  resultType="int" >
+		<![CDATA[
+		   select count(*) from sys_role
+		    ]]>
+	</select>
+
+	<insert id="insert" parameterType="com.fanfandou.admin.system.entity.Role" useGeneratedKeys="true" keyProperty="id">
+	    <![CDATA[
+	     INSERT INTO sys_role (role,create_time,description,available,memo) VALUES (
+		#{role},
+		#{createTime},
+		#{description},
+		#{available},
+		#{memo}
+	)
+	 ]]>
+	</insert>
+
+	<update id="update" parameterType="com.fanfandou.admin.system.entity.Role">
+
+         <![CDATA[
+        UPDATE sys_role SET
+            role = #{role},
+            create_time = #{createTime},
+            description = #{description},
+            available = #{available},
+            memo = #{memo}
+        WHERE
+            id = #{id,jdbcType=INTEGER}
+ ]]>
+	</update>
+
+</mapper>

@@ -1,0 +1,271 @@
+package common.ffd.gm;
+
+option optimize_for = LITE_RUNTIME;
+option java_package = "com.fanfandou.platform.serv.game.entity.tol.gm";
+
+// 协议号
+enum GmMsgType
+{
+	//////////////////////////////////平台GM命令协议///////////////////////////////////////////
+	enum_Msg_Gm2Logic_Player_Load_Req = 48;					// gm工具 -> logic 加载不在线的玩家数据
+	enum_Msg_Logic2Gm_Player_Load_Res = 49;					// logic -> gm工具 加载不在线的玩家数据结果
+
+	enum_Msg_Gm2Logic_Player_Block_Req = 50;					// gm工具 -> logic 踢玩家下线封停玩家
+	enum_Msg_Logic2Gm_Player_Block_Res = 51;					// logic -> gm工具 踢玩家下线封停玩家结果
+
+	enum_Msg_Gm2Logic_Player_BaseInfo_Get_Req = 52;			// gm工具 -> logic 获取玩家基础信息
+	enum_Msg_Logic2Gm_Player_BaseInfo_Get_Res = 53;			// logic -> gm工具 获取玩家基础信息结果
+	enum_Msg_Gm2Logic_Player_BaseInfo_Update_Req = 54;			// gm工具 -> logic 修改玩家基础信息
+	enum_Msg_Logic2Gm_Player_BaseInfo_Update_Res = 55;			// logic -> gm工具 修改玩家基础信息结果
+
+	enum_Msg_Gm2Logic_Player_HeroInfo_Get_Req = 56;			// gm工具 -> logic 获取玩家英雄信息
+	enum_Msg_Logic2Gm_Player_HeroInfo_Get_Res = 57;			// logic -> gm工具 获取玩家英雄信息结果
+	enum_Msg_Gm2Logic_Player_HeroInfo_Update_Req = 58;			// gm工具 -> logic 修改玩家英雄信息
+	enum_Msg_Logic2Gm_Player_HeroInfo_Update_Res = 59;			// logic -> gm工具 修改玩家英雄信息结果
+
+	enum_Msg_Gm2Logic_Player_ItemInfo_Get_Req = 60;			// gm工具 -> logic 获取玩家物品信息
+	enum_Msg_Logic2Gm_Player_ItemInfo_Get_Res = 61;			// logic -> gm工具 获取玩家物品信息结果
+	enum_Msg_Gm2Logic_Player_ItemInfo_Update_Req = 62;			// gm工具 -> logic 修改玩家物品信息
+	enum_Msg_Logic2Gm_Player_ItemInfo_Update_Res = 63;			// logic -> gm工具 修改玩家物品信息结果
+
+	enum_Msg_Gm2Logic_Player_MailInfo_Get_Req = 64;			// gm工具 -> logic 获取玩家邮件信息
+	enum_Msg_Logic2Gm_Player_MailInfo_Get_Res = 65;			// logic -> gm工具 获取玩家邮件信息结果
+	enum_Msg_Gm2Logic_Player_MailInfo_Update_Req = 66;			// gm工具 -> logic 修改玩家邮件信息
+	enum_Msg_Logic2Gm_Player_MailInfo_Update_Res = 67;			// logic -> gm工具 修改玩家邮件信息结果
+
+	enum_Msg_Gm2Logic_Player_RuneInfo_Get_Req = 68;			// gm工具 -> logic 获取玩家符文信息
+	enum_Msg_Logic2Gm_Player_RuneInfo_Get_Res = 69;			// logic -> gm工具 获取玩家符文信息结果
+	enum_Msg_Gm2Logic_Player_RuneInfo_Update_Req = 70;			// gm工具 -> logic 修改玩家符文信息
+	enum_Msg_Logic2Gm_Player_RuneInfo_Update_Res = 71;			// logic -> gm工具 修改玩家符文信息结果
+
+	enum_Msg_Gm2Logic_Player_TalentInfo_Get_Req = 72;			// gm工具 -> logic 获取玩家天赋信息
+	enum_Msg_Logic2Gm_Player_TalentInfo_Get_Res = 73;			// logic -> gm工具 获取玩家天赋信息结果
+	enum_Msg_Gm2Logic_Player_TalentInfo_Update_Req = 74;		// gm工具 -> logic 修改玩家天赋信息
+	enum_Msg_Logic2Gm_Player_TalentInfo_Update_Res = 75;		// logic -> gm工具 修改玩家天赋信息结果
+
+	enum_Msg_Gm2Logic_Player_FriendInfo_Get_Req = 76;			// gm工具 -> logic 获取玩家好友信息
+	enum_Msg_Logic2Gm_Player_FriendInfo_Get_Res = 77;			// logic -> gm工具 获取玩家好友信息结果
+	enum_Msg_Gm2Logic_Player_FriendInfo_Update_Req = 78;		// gm工具 -> logic 修改玩家好友信息
+	enum_Msg_Logic2Gm_Player_FriendInfo_Update_Res = 79;		// logic -> gm工具 修改玩家好友信息结果
+
+	enum_Msg_Gm2Logic_Player_Unblock_Req = 80;				// gm工具 -> logic 解封玩家
+	enum_Msg_Logic2Gm_Player_Unblock_Res = 81;				// logic -> gm工具 解封玩家结果
+
+	enum_Msg_Gm2Logic_Player_Kicket_Req = 82;				//gm工具 -> logic 踢人
+	enum_Msg_Logic2Gm_Player_Kicket_Res = 83;				//logic -> gm工具  踢人返回结果
+
+	enum_Msg_Gm2Logic_GetServerInfo_Req = 112;				//gm工具 -> logic 请求server信息
+	enum_Msg_Logic2Gm_GetServerInfo_Res = 113;				//logic -> gm工具 请求server信息返回
+}
+
+// 属性枚举
+enum GmMsgParam
+{
+	// 加载不在线的玩家数据
+	enum_PlayerLoadReq_AccountId = 0;					// 加载不在线的玩家数据：参数：账号id（uint32）
+	enum_PlayerLoadReq_ServerId = 1;					// 加载不在线的玩家数据：参数：服id（uint32）
+
+	enum_PlayerLoadRes_Res = 2;					// 加载不在线的玩家数据：结果：成功/失败（uint32，0成功，1玩家数据不存在）
+
+	// 踢玩家下线封停玩家
+	enum_PlayerBlockReq_AccountId = 256;					// 踢玩家下线封停玩家：参数：账号id（uint32）
+	enum_PlayerBlockReq_ServerId = 257;					// 踢玩家下线封停玩家：参数：服id（uint32）
+	enum_PlayerBlockReq_BlockSecond = 258;				// 踢玩家下线封停玩家：参数：封停时长：秒（uint32）
+	enum_PlayerBlockReq_BlockRes = 259;					// 踢玩家下线封停玩家：参数：封停原因（uint32）
+	enum_PlayerBlockRes_Res = 260;					// 踢玩家下线封停玩家：结果：成功/失败（uint32，0成功，1玩家数据不存在）
+
+	// 获取玩家基础信息
+	enum_PlayerBaseInfo_GetReq_AccountId = 512;				// 获取玩家基础信息：参数：账号id（uint32）
+	enum_PlayerBaseInfo_GetReq_ServerId = 513;				// 获取玩家基础信息：参数：服id（uint32）
+
+	enum_PlayerBaseInfo_GetRes_AccountId = 514;				// 获取玩家基础信息：结果：账号id（uint32）
+	enum_PlayerBaseInfo_GetRes_ServerId = 515;				// 获取玩家基础信息：结果：服id（uint32）
+	enum_PlayerBaseInfo_GetRes_Name = 516;				// 获取玩家基础信息：结果：玩家名称（string）
+	enum_PlayerBaseInfo_GetRes_Lv = 517;					// 获取玩家基础信息：结果：玩家等级（uint32）
+	enum_PlayerBaseInfo_GetRes_Exp = 518;				// 获取玩家基础信息：结果：玩家经验（uint32）
+	enum_PlayerBaseInfo_GetRes_UnionServerId = 519;			// 获取玩家基础信息：结果：公会所属服id（uint32）
+	enum_PlayerBaseInfo_GetRes_UnionIndex = 520;				// 获取玩家基础信息：结果：公会序号（uint32）
+	enum_PlayerBaseInfo_GetRes_UnionName = 521;				// 获取玩家基础信息：结果：公会名称（string）
+	enum_PlayerBaseInfo_GetRes_UnionContribution = 528;			// 获取玩家基础信息：结果：公会个人贡献等级（uint32）
+	enum_PlayerBaseInfo_GetRes_HeroCount = 529;				// 获取玩家基础信息：结果：拥有英雄数量（uint32）
+	enum_PlayerBaseInfo_GetRes_FrientCurrCount = 530;			// 获取玩家基础信息：结果：当前好友数（uint32）
+	enum_PlayerBaseInfo_GetRes_FrientMaxCount = 531;			// 获取玩家基础信息：结果：上限好友数（uint32）
+	enum_PlayerBaseInfo_GetRes_Gold = 532;				// 获取玩家基础信息：结果：金币（uint32）
+	enum_PlayerBaseInfo_GetRes_Rmb = 533;				// 获取玩家基础信息：结果：充值货币（uint32）
+	enum_PlayerBaseInfo_GetRes_PVECoin = 534;				// 获取玩家基础信息：结果：副本货币（uint32）
+	enum_PlayerBaseInfo_GetRes_PVPCoin = 535;				// 获取玩家基础信息：结果：竞技货币（uint32）
+	enum_PlayerBaseInfo_GetRes_Decompose = 536;				// 获取玩家基础信息：结果：物品分解获得货币（uint32）
+	enum_PlayerBaseInfo_GetRes_HuntingLv = 537;				// 获取玩家基础信息：结果：考试等级（uint32）
+	enum_PlayerBaseInfo_GetRes_HuntingTest = 544;			// 获取玩家基础信息：结果：考试进度（uint32）
+	enum_PlayerBaseInfo_GetRes_HuntingStrength = 545;			// 获取玩家基础信息：结果：幻境点数（uint32）
+	enum_PlayerBaseInfo_GetRes_TalentPoint = 546;			// 获取玩家基础信息：结果：天赋点（uint32）
+	enum_PlayerBaseInfo_GetRes_MatchGrade = 547;				// 获取玩家基础信息：结果：PVP分组（uint32）
+	enum_PlayerBaseInfo_GetRes_MatchPoint = 548;				// 获取玩家基础信息：结果：PVP积分（uint32）
+	enum_PlayerBaseInfo_GetRes_Online = 549;				// 获取玩家基础信息：结果：在线状态（bool，true在线，false不在线）
+	enum_PlayerBaseInfo_GetRes_BlockTime = 550;				// 获取玩家基础信息：结果：封停时间戳（uint64）
+	enum_PlayerBaseInfo_GetRes_BlockSecond = 551;			// 获取玩家基础信息：结果：封停时长：秒（uint32）
+	enum_PlayerBaseInfo_GetRes_BlockRes = 552;				// 获取玩家基础信息：结果：封停原因（uint32）
+
+	// 修改玩家基础信息
+	enum_PlayerBaseInfo_UpdateReq_AccountId = 768;			// 修改玩家基础信息：参数：账号id（uint32）
+	enum_PlayerBaseInfo_UpdateReq_ServerId = 769;			// 修改玩家基础信息：参数：服id (uint32)
+	enum_PlayerBaseInfo_UpdateReq_Lv = 770;				// 修改玩家基础信息：参数：玩家等级（uint32）
+	enum_PlayerBaseInfo_UpdateReq_Exp = 771;				// 修改玩家基础信息：参数：玩家经验（uint32）
+	enum_PlayerBaseInfo_UpdateReq_Gold = 772;				// 修改玩家基础信息：参数：金币（uint32）
+	enum_PlayerBaseInfo_UpdateReq_Rmb = 773;				// 修改玩家基础信息：参数：充值货币（uint32）
+	enum_PlayerBaseInfo_UpdateReq_PVECoin = 774;				// 修改玩家基础信息：参数：副本货币（uint32）
+	enum_PlayerBaseInfo_UpdateReq_PVPCoin = 775;				// 修改玩家基础信息：参数：竞技货币（uint32）
+	enum_PlayerBaseInfo_UpdateReq_Decompose = 776;			// 修改玩家基础信息：参数：物品分解获得货币（uint32）
+	enum_PlayerBaseInfo_UpdateReq_HuntingTest = 777;			// 修改玩家基础信息：参数：考试进度（uint32）
+	enum_PlayerBaseInfo_UpdateReq_HuntingStrength = 784;			// 修改玩家基础信息：参数：幻境点数（uint32）
+	enum_PlayerBaseInfo_UpdateReq_TalentPoint = 785;			// 修改玩家基础信息：参数：天赋点（uint32）
+	enum_PlayerBaseInfo_UpdateReq_MatchPoint = 786;			// 修改玩家基础信息：参数：PVP积分（uint32）
+
+	enum_PlayerBaseInfo_UpdateRes = 787;					// 修改玩家基础信息：结果：成功/失败（uint32，0成功，1玩家数据不存在）
+
+	//item
+	enum_Player_GetItem_res_ItemId = 920;				// 获取道具 --道具ID
+	enum_Player_GetItem_res_ItemCount = 921;				// 获取道具 --道具数量
+
+	enum_Player_updateItemReq_ItemId = 1024;				// 修改玩家道具请求 --道具ID
+	enum_Player_updateItemReq_ItemCount = 1025;				// 修改玩家道具请求 --道具数量
+
+	//hero
+	enum_player_GetHeroCount_ret			= 1280;		// 获取英雄数量返回
+	enum_player_GetHero_res_Lv			= 1536; //等级
+	enum_player_GetHero_res_Exp			= 1537; //经验
+	enum_player_GetHero_res_Quality			= 1538; //品质
+	enum_player_GetHero_res_name			= 1539; //名称
+	enum_player_GetHero_res_Id			= 1540; //ID
+	enum_player_GetHero_res_skillCount		= 1541; //技能个数
+	enum_player_GetHero_res_skillId			= 1542; //技能名称
+
+	enum_player_GetHero_res_EquipCount		= 1552; //装备数量
+	enum_player_GetHero_res_EquipId			= 1553; //装备Id
+
+	enum_player_updateHero_req_HeroId		= 1568; //英雄ID
+	enum_player_updateHero_req_Exp			= 1570; //经验
+	enum_player_updateHero_req_Quality		= 1571; //品质
+	enum_player_updateHero_req_SkilliD		= 1572; //要修改技能等级的技能ID
+	enum_player_updateHero_req_SkillIndex		= 1573; //修改技能的位置
+
+
+//mail
+	enum_player_GetMailCount_res			= 1616; // 获取mail数量返回
+	enum_player_GetMail_res_MailId 			= 1617; // 邮件ID
+	enum_player_GetMail_res_title			= 1618; // 邮件标题
+	enum_player_GetMail_res_GetTime			= 1619; // 邮件获取时间
+
+	enum_player_GetMail_res_accessoryCount 	= 1620; // 邮件附件数量
+	enum_player_GetMail_res_accessoryItemId 	= 1621; // 邮件附件物品ID
+	enum_player_GetMail_res_accessoryItemCount	= 1623; // 邮件附件物品数量
+	enum_player_GetMail_res_accessoryIsGet 		= 1632; // 邮件附件是否领取
+
+
+	enum_player_updateMail_req_deleteMailId		= 1648; //删除邮件ID
+
+
+//Rune
+	enum_player_GetRune_res_Count			= 2048; //获取符文个数
+	enum_player_GetRune_res_Id			= 2049; //获取符文ID
+	enum_player_GetRune_res_Type			= 2050; //获取符文类型
+	enum_player_GetRune_res_lv			= 2052; //获取符文等级
+
+	enum_player_UpdateRune_req_lv 			= 2081; //更新符文等级
+
+//friend
+	enum_player_GetFriend_res_Count 		= 2128; //获取好友数量
+	enum_player_GetFriend_res_name 			= 2129; //获取好友名称
+	enum_player_GetFriend_res_ID 			= 2130; //获取好友Id
+	enum_player_GetFriend_res_lv 			= 2131; //获取好友等级
+	enum_player_GetFriend_res_isOnline 		= 2132; //获取好友是否在线
+
+	enum_player_UpdateFriend_req_delete_friendID 	= 2144; //删除好友
+
+	enum_Server_GetPlayerCount				= 2304;		//获取服务器人数
+
+}
+
+// 属性结构
+message GmKeyValue
+{
+	required uint32 m_param = 1;			//属性枚举，对应GmMsgParam
+	optional uint64 m_value_uint64 = 2;		//属性值，不同类型的值填在相应字段中
+	optional int64 m_value_int64 = 3;
+	optional uint32 m_value_uint32 = 4;
+	optional int32 m_value_int32 = 5;
+	optional bool m_value_bool = 6;
+	optional string m_value_string = 7;
+}
+
+// 属性列表
+message GmKeyValueList
+{
+	repeated GmKeyValue m_values = 1;		//属性列表
+
+}
+
+// 表（配置）属性结构
+message GmTableValue
+{
+	optional string m_column_name = 1;			//表字段名（主键索引/记录id不可更改）
+	optional uint64 m_value_uint64 = 2;			//属性值，不同类型的值填在相应字段中
+	optional int64 m_value_int64 = 3;
+	optional uint32 m_value_uint32 = 4;
+	optional int32 m_value_int32 = 5;
+	optional bool m_value_bool = 6;
+	optional string m_value_string = 7;
+}
+
+message GmTableValueList
+{
+	optional uint32 m_row_id = 1;				//表格记录id
+	repeated GmTableValue m_columns = 2;		//属性列表
+}
+
+
+
+// 公告结构
+message GmNotice
+{
+	optional string m_notice_str = 1;			// 公告内容
+	optional uint64 m_begin_time = 2;			// 起始时间
+	optional uint64 m_end_time = 3;				// 结束时间
+	optional uint32 m_loop_count = 4;			// 循环次数
+}
+
+enum GMErrorCode
+{
+	GMErrorCode_Success					= 1;					//没有错误
+	GMErrorCode_Param_Error 			= 2;					//命令传入参数错误
+	GMErrorCode_ParsePacket_Error		= 3;					//解包错误
+	GMErrorCode_DbExec_Error		 	= 4;					//数据库执行sql错误
+	GMErrorCode_PlayerNotExists_Error	= 5;					//找不到玩家
+	GMErrorCode_MemNotEnough_Error		= 6;					//内存不足
+
+	GMErrorCode_Deposit_Item_Error		= 7;					//充值失败，道具id不存在
+	GMErrorCode_Deposit_Success			= 8;					//充值成功
+
+	GMErrorCode_Mail_Success			= 9;					//发邮件成功
+
+	GMErrorCode_Shop_Goods_Error		= 10;					//购买失败，商品id不存在
+	GMErrorCode_Shop_Success			= 11;					//购买成功
+
+    GMErrorCode_Activity_Error			= 12;					//活动接取/完成失败，活动ID不存在
+    GMErrorCode_Activity_Task_Error		= 13;					//活动接取/完成失败，活动子项目的任务ID不存在
+    GMErrorCode_Activity_Success		= 14;					//活动接取/完成成功
+};
+
+
+enum GmRouteMsgType
+
+{
+
+	GmRouteMsgType_Price_Update			= 1;					//通知客户端商城价格刷新，参数可填具体商品id，为空则全部重新获取
+	GmRouteMsgType_Shelve_Update		= 2;					//通知客户端商品上架，参数可填具体商品id
+	GmRouteMsgType_OffShelve_Update		= 3;					//通知客户端商品下架，参数可填具体商品id
+	GmRouteMsgType_ToyCode				= 4;					//通知客户端玩具兑换码
+	GmRouteMsgType_Activity_Update		= 5;					//通知客户端活动信息更新，参数可填具体活动id
+	GmRouteMsgType_Activity_Close		= 6;					//通知客户端活动关闭，参数可填具体活动id
+	GmRouteMsgType_Activity_Delete		= 7;					//通知客户端活动删除，参数可填具体活动id
+};

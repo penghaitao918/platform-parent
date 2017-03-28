@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.admin.operation.dao.ItemTypeMapper">
+
+	<resultMap type="com.fanfandou.admin.operation.entity.ItemType" id="itemTypeMapper">
+		<id property="id" column="id"/>
+		<result property="itemCode" column="item_code"/>
+		<result property="itemName" column="item_name"/>
+		<result property="itemType" column="item_type"/>
+		<result property="itemExtend" column="item_extend"/>
+		<result property="gameId" column="game_id"/>
+		<result property="createTime" column="create_time"/>
+		<result property="available" column="available"/>
+	</resultMap>
+
+	<select id="selectAll"  resultMap="itemTypeMapper" >
+		<![CDATA[
+                select * from game_item
+                 ]]>
+	</select>
+
+	<select id="selectByType"  resultMap="itemTypeMapper" parameterType="int">
+		<![CDATA[
+                select * from game_item where item_type = #{itemType,jdbcType=VARCHAR}
+                 ]]>
+	</select>
+
+	<select id="selByGameId"  resultMap="itemTypeMapper" parameterType="int">
+		<![CDATA[
+                select * from game_item where game_id = #{gameId}
+                 ]]>
+	</select>
+
+	<delete id="delete" parameterType="int">
+		<![CDATA[
+		    delete from game_item where id = #{id}
+		     ]]>
+	</delete>
+
+	<select id="selectById"  resultMap="itemTypeMapper" parameterType="int">
+		<![CDATA[
+		   select * from game_item where id = #{id}
+		    ]]>
+	</select>
+
+	<select id="selectByCode"  resultMap="itemTypeMapper" parameterType="java.util.Map">
+		<![CDATA[
+		   select * from game_item
+		   where game_id = #{gameId,jdbcType=INTEGER}
+		   and item_code = #{itemCode}
+		    ]]>
+	</select>
+
+	<select id="selByCodeAndType"  resultMap="itemTypeMapper" parameterType="java.util.Map">
+		<![CDATA[
+		   select * from game_item
+		   where game_id = #{gameId,jdbcType=INTEGER}
+		   and item_code = #{itemCode}
+		   and item_type = #{itemType}
+		    ]]>
+	</select>
+
+	<select id="pageList"  resultMap="itemTypeMapper" parameterType="java.util.Map">
+
+		   select * from game_item
+		   where item_name LIKE #{itemName,jdbcType=VARCHAR}
+		<if test="gameId != 0 ">
+		   and game_id = #{gameId,jdbcType=INTEGER}
+		</if>
+		   order by ${str1} ${str2}
+		   limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+
+	</select>
+
+	<select id="pageListByType"  resultMap="itemTypeMapper" parameterType="java.util.Map">
+
+		   select * from game_item
+		   where item_name LIKE #{itemName,jdbcType=VARCHAR}
+		  <if test="gameId != 0 ">
+		   and game_id = #{gameId,jdbcType=INTEGER}
+		</if>
+		   and item_type = #{itemType}
+		   order by ${str1} ${str2}
+		   limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+
+	</select>
+
+	<select id="totalCount"  resultType="int" parameterType="java.util.Map">
+		<![CDATA[
+		   select count(*) from game_item
+		   where item_name LIKE #{itemName,jdbcType=VARCHAR}
+		   and game_id = #{gameId,jdbcType=INTEGER}
+		    ]]>
+	</select>
+
+	<select id="totalCountByType"  resultType="int" parameterType="java.util.Map">
+		<![CDATA[
+		   select count(*) from game_item
+		   where item_name LIKE #{itemName,jdbcType=VARCHAR}
+		   and game_id = #{gameId,jdbcType=INTEGER}
+		   and item_type = #{itemType}
+		    ]]>
+	</select>
+
+	<insert id="insert" parameterType="com.fanfandou.admin.operation.entity.ItemType" useGeneratedKeys="true" keyProperty="id">
+	    <![CDATA[
+	     INSERT INTO game_item (item_code,item_name,item_type,item_extend,game_id,create_time,available) VALUES (
+		#{itemCode},
+		#{itemName},
+		#{itemType},
+		#{itemExtend},
+		#{gameId},
+		#{createTime},
+		#{available}
+	)
+	 ]]>
+	</insert>
+
+	<update id="update" parameterType="com.fanfandou.admin.operation.entity.ItemType">
+
+         <![CDATA[
+        UPDATE game_item SET
+            item_code = #{itemCode},
+            item_name = #{itemName},
+            item_type = #{itemType},
+            item_extend = #{itemExtend},
+            game_id = #{gameId},
+            create_time = #{createTime},
+            available = #{available}
+        WHERE
+            id = #{id,jdbcType=INTEGER}
+ ]]>
+	</update>
+
+</mapper>

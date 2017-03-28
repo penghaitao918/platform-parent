@@ -1,0 +1,312 @@
+import "CommonAccountStruct.proto";
+
+package common.ffd.account;
+option java_package = "com.fanfandou.platform.serv.game.entity.tol.account";
+
+option optimize_for = LITE_RUNTIME;
+
+// 账号服协议开始标志
+
+message Msg_MsgBeginFlag_Account
+
+{
+
+
+
+}
+
+
+
+///////////////////////////////////////////////////////登录流程协议///////////////////////////////////////////////////////
+
+// client -> account 验证账号密码
+
+message Msg_Client2Account_Login_Req
+
+{
+
+	required string m_account_name = 1;		// 请求登录的账号/密码
+
+	required string m_account_key = 2;
+
+}
+
+// account -> center 记录账号登录的授权码key
+
+message Msg_Account2Center_Reg_Login_Key_Req
+
+{
+
+	required string m_serial_number = 1;	// 消息流水号
+
+	required uint32 m_account_id = 2;		// 验证成功的情况下，账号id
+
+	required uint32 m_anti_addiction = 3;	// 防沉迷系统，该账号今日已游戏的秒数
+
+}
+
+// center -> account 记录账号登录的授权码key
+
+message Msg_Center2Account_Reg_Login_Key_Res
+
+{
+
+	required string m_serial_number = 1;	// 消息流水号
+
+	required uint32 m_account_id = 2;		// 验证成功的情况下，账号id
+
+	required uint32 m_key = 3;				// 服务器生成的授权码key，进入服务器需要带这个key
+
+}
+
+// account -> client 返回验证结果
+
+message Msg_Account2Client_Login_Res
+
+{
+
+	optional uint32 m_account_id = 1;		// 验证成功的情况下，账号id
+
+	optional uint32 m_key = 2;				// 验证成功的情况下，服务器生成的授权码key，进入服务器需要带这个key
+
+	repeated uint32 m_toy_type = 3;			// 验证成功的情况下，该账号下已激活的玩具类型列表
+
+	required uint32 m_res = 4;				// 验证结果AccountRes
+
+}
+
+
+
+// client -> account 注册账号
+
+message Msg_Client2Account_Reg_Req
+
+{
+
+	required string m_account_name = 1;		// 请求注册的账号/密码
+
+	required string m_account_key = 2;
+
+}
+
+// account -> client 返回注册结果
+
+message Msg_Account2Client_Reg_Res
+
+{
+
+	required uint32 m_res = 1;				// 注册结果AccountRes
+
+}
+
+
+
+// client -> account 清理所有账号绑定玩具（仅限测试）
+
+message Msg_Client2Account_CleanToy_Req
+
+{
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+/////////////////////////////////////////////////////玩家验证玩具激活/////////////////////////////////////////////////////
+
+// center -> account 玩家创建角色时，验证角色模型是否激活
+
+message Msg_Center2Account_Create_Player_Req
+
+{
+
+	required uint32 m_operator_account_id = 1;	// 账号id
+
+	required uint32 m_operator_server_id = 2;	// 服id
+
+	required string m_name = 3;					// 待创建的角色名称
+
+	required uint32 m_create_toy_type = 4;		// 待创建的角色的玩具id
+
+}
+
+// account -> center 验证角色模型是否激活结果
+
+message Msg_Account2Center_Create_Player_Res
+
+{
+
+	required uint32 m_operator_account_id = 1;	// 账号id
+
+	required uint32 m_operator_server_id = 2;	// 服id
+
+	required string m_name = 3;					// 待创建的角色名称
+
+	required uint32 m_create_toy_type = 4;		// 待创建的角色的玩具id
+
+	repeated uint32 m_activate_toy_type = 5;	// 验证成功的情况下，该账号下已激活的玩具类型列表
+
+	required uint32 m_res = 6;					// 该账号是否已激活该玩具的验证结果AccountRes
+
+}
+
+
+
+// center -> account 激活玩具
+
+message Msg_Center2Account_ToyActivate_Req
+
+{
+
+	required uint32 m_operator_account_id = 1;	// 账号id
+
+	required uint32 m_operator_server_id = 2;	// 服id
+
+	required string m_toy_guid = 3;				// 玩具唯一识别码
+
+	required uint32 m_toy_type = 4;				// 玩具类别
+
+	required string m_toy_key = 5;				// 玩具密码
+
+}
+
+// account -> center 激活结果
+
+message Msg_Account2Center_ToyActivate_Res
+
+{
+
+	required uint32 m_operator_account_id = 1;	// 账号id
+
+	required uint32 m_operator_server_id = 2;	// 服id
+
+	required string m_toy_guid = 3;				// 激活的玩具唯一识别码
+
+	required uint32 m_toy_type = 4;				// 激活的玩具类别
+
+	required uint32 m_res = 5;					// 激活验证结果AccountRes
+
+}
+
+
+
+// center -> account 检查玩具是否已激活
+
+message Msg_Center2Account_CheckToyActivate_Req
+
+{
+
+	required uint32 m_operator_account_id = 1;	// 账号id
+
+	required uint32 m_operator_server_id = 2;	// 服id
+
+	required string m_toy_guid = 3;				// 玩具唯一识别码
+
+	required uint32 m_toy_type = 4;				// 玩具类别
+
+	required string m_toy_key = 5;				// 玩具密码
+
+}
+
+// account -> center 检查玩具是否已激活的结果
+
+message Msg_Account2Center_CheckToyActivate_Res
+
+{
+
+	required uint32 m_operator_account_id = 1;	// 账号id
+
+	required uint32 m_operator_server_id = 2;	// 服id
+
+	required string m_toy_guid = 3;				// 激活的玩具唯一识别码
+
+	required uint32 m_toy_type = 4;				// 激活的玩具类别
+
+	required uint32 m_account_id = 5;			// 玩具对应账号id，0则为不存在绑定的账号
+
+	required uint32 m_res = 6;					// 检查结果AccountRes
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+///////////////////////////////////////////////////////角色上/下线更新////////////////////////////////////////////////////
+
+// center -> account 角色上线更新
+
+message Msg_Center2Account_Login_Req
+
+{
+
+	optional uint32 m_account_id = 1;		// 角色ID
+
+	optional uint32 m_server_id = 2;		// 服务器ID
+
+	optional uint64 m_time_login = 3;		// 上线时间戳
+
+}
+
+// center -> account 角色下线更新
+
+message Msg_Center2Account_Logout_Req
+
+{
+
+	optional uint32 m_account_id = 1;		// 角色ID
+
+	optional uint32 m_server_id = 2;		// 服务器ID
+
+	optional uint64 m_time_logout = 3;		// 下线时间戳
+
+	optional string m_name = 4;				// 角色名称
+
+	optional uint32 m_head = 5;				// 头像
+
+	optional uint32 m_summoner_lv = 6;		// 等级
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////防沉迷//////////////////////////////////////////////////////////
+
+// account -> center 防沉迷信息，仅限未成年的账号，已成年账号不需要通知
+
+// 该协议需要在账号“累计在线时间”满1小时/2小时/3小时/4小时/4小时30分/5小时+15分*X时间点通知
+
+// 如果该账号登录时（平台收到Msg_Center2Account_Login_Req时）“累计在线时间”已超过3小时/5小时，需要立即通知一次
+
+message Msg_Account2Center_AntiAddiction_Req
+
+{
+
+	optional uint32 m_account_id = 1;		// 角色ID
+
+	optional uint32 m_server_id = 2;		// 服务器ID
+
+	optional uint32 m_time_used = 3;		// 该账号今日已游戏的秒数
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// 账号服协议结束标志
+
+message Msg_MsgEndFlag_Account
+
+{
+
+
+
+}

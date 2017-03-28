@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.admin.server.operation.dao.GamePatchMapper">
+    <resultMap id="BaseResultMap" type="com.fanfandou.admin.api.operation.entity.GamePatch">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="game_id" property="gameId" jdbcType="INTEGER"/>
+        <result column="site_id" property="siteId" jdbcType="INTEGER"/>
+        <result column="patch_name" property="patchName" jdbcType="VARCHAR"/>
+        <result column="patch_desc" property="patchDesc" jdbcType="VARCHAR"/>
+        <result column="patch_url" property="patchUrl" jdbcType="VARCHAR"/>
+        <result column="patch_size" property="patchSize" jdbcType="INTEGER"/>
+        <result column="patch_version" property="patchVersion" jdbcType="INTEGER"/>
+        <result column="device_type" property="deviceType" jdbcType="TINYINT"
+                typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+        <result column="white_status" property="whiteStatus" jdbcType="TINYINT"
+                typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+        <result column="white_content" property="whiteContent" jdbcType="VARCHAR"/>
+        <result column="valid_status" property="validStatus" jdbcType="TINYINT"
+                typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, game_id, site_id, patch_name, patch_desc, patch_url, patch_size, patch_version, 
+    device_type, white_status, white_content, valid_status
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.fanfandou.admin.api.operation.entity.GamePatchExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from game_patch
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from game_patch
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from game_patch
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.fanfandou.admin.api.operation.entity.GamePatch">
+    insert into game_patch (id, game_id, site_id, 
+      patch_name, patch_desc, patch_url, 
+      patch_size, patch_version, device_type, 
+      white_status, white_content, valid_status
+      )
+    values (#{id,jdbcType=BIGINT}, #{gameId,jdbcType=INTEGER}, #{siteId,jdbcType=INTEGER}, 
+      #{patchName,jdbcType=VARCHAR}, #{patchDesc,jdbcType=VARCHAR}, #{patchUrl,jdbcType=VARCHAR}, 
+      #{patchSize,jdbcType=INTEGER}, #{patchVersion,jdbcType=INTEGER}, #{deviceType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      #{whiteStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      #{whiteContent,jdbcType=VARCHAR},
+      #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.fanfandou.admin.api.operation.entity.GamePatch">
+        insert into game_patch
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="gameId != null">
+                game_id,
+            </if>
+            <if test="siteId != null">
+                site_id,
+            </if>
+            <if test="patchName != null">
+                patch_name,
+            </if>
+            <if test="patchDesc != null">
+                patch_desc,
+            </if>
+            <if test="patchUrl != null">
+                patch_url,
+            </if>
+            <if test="patchSize != null">
+                patch_size,
+            </if>
+            <if test="patchVersion != null">
+                patch_version,
+            </if>
+            <if test="deviceType != null">
+                device_type,
+            </if>
+            <if test="whiteStatus != null">
+                white_status,
+            </if>
+            <if test="whiteContent != null">
+                white_content,
+            </if>
+            <if test="validStatus != null">
+                valid_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="gameId != null">
+                #{gameId,jdbcType=INTEGER},
+            </if>
+            <if test="siteId != null">
+                #{siteId,jdbcType=INTEGER},
+            </if>
+            <if test="patchName != null">
+                #{patchName,jdbcType=VARCHAR},
+            </if>
+            <if test="patchDesc != null">
+                #{patchDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="patchUrl != null">
+                #{patchUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="patchSize != null">
+                #{patchSize,jdbcType=INTEGER},
+            </if>
+            <if test="patchVersion != null">
+                #{patchVersion,jdbcType=INTEGER},
+            </if>
+            <if test="deviceType != null">
+                #{deviceType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="whiteStatus != null">
+                #{whiteStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="whiteContent != null">
+                #{whiteContent,jdbcType=VARCHAR},
+            </if>
+            <if test="validStatus != null">
+                #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.fanfandou.admin.api.operation.entity.GamePatchExample"
+            resultType="java.lang.Integer">
+        select count(*) from game_patch
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update game_patch
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.gameId != null">
+                game_id = #{record.gameId,jdbcType=INTEGER},
+            </if>
+            <if test="record.siteId != null">
+                site_id = #{record.siteId,jdbcType=INTEGER},
+            </if>
+            <if test="record.patchName != null">
+                patch_name = #{record.patchName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.patchDesc != null">
+                patch_desc = #{record.patchDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.patchUrl != null">
+                patch_url = #{record.patchUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.patchSize != null">
+                patch_size = #{record.patchSize,jdbcType=INTEGER},
+            </if>
+            <if test="record.patchVersion != null">
+                patch_version = #{record.patchVersion,jdbcType=INTEGER},
+            </if>
+            <if test="record.deviceType != null">
+                device_type =
+                #{record.deviceType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="record.whiteStatus != null">
+                white_status =
+                #{record.whiteStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="record.whiteContent != null">
+                white_content = #{record.whiteContent,jdbcType=VARCHAR},
+            </if>
+            <if test="record.validStatus != null">
+                valid_status =
+                #{record.validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update game_patch
+        set id = #{record.id,jdbcType=BIGINT},
+        game_id = #{record.gameId,jdbcType=INTEGER},
+        site_id = #{record.siteId,jdbcType=INTEGER},
+        patch_name = #{record.patchName,jdbcType=VARCHAR},
+        patch_desc = #{record.patchDesc,jdbcType=VARCHAR},
+        patch_url = #{record.patchUrl,jdbcType=VARCHAR},
+        patch_size = #{record.patchSize,jdbcType=INTEGER},
+        patch_version = #{record.patchVersion,jdbcType=INTEGER},
+        device_type = #{record.deviceType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+        white_status =
+        #{record.whiteStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+        white_content = #{record.whiteContent,jdbcType=VARCHAR},
+        valid_status = #{record.validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.fanfandou.admin.api.operation.entity.GamePatch">
+        update game_patch
+        <set>
+            <if test="gameId != null">
+                game_id = #{gameId,jdbcType=INTEGER},
+            </if>
+            <if test="siteId != null">
+                site_id = #{siteId,jdbcType=INTEGER},
+            </if>
+            <if test="patchName != null">
+                patch_name = #{patchName,jdbcType=VARCHAR},
+            </if>
+            <if test="patchDesc != null">
+                patch_desc = #{patchDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="patchUrl != null">
+                patch_url = #{patchUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="patchSize != null">
+                patch_size = #{patchSize,jdbcType=INTEGER},
+            </if>
+            <if test="patchVersion != null">
+                patch_version = #{patchVersion,jdbcType=INTEGER},
+            </if>
+            <if test="deviceType != null">
+                device_type = #{deviceType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="whiteStatus != null">
+                white_status =
+                #{whiteStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+            <if test="whiteContent != null">
+                white_content = #{whiteContent,jdbcType=VARCHAR},
+            </if>
+            <if test="validStatus != null">
+                valid_status =
+                #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.fanfandou.admin.api.operation.entity.GamePatch">
+    update game_patch
+    set game_id = #{gameId,jdbcType=INTEGER},
+      site_id = #{siteId,jdbcType=INTEGER},
+      patch_name = #{patchName,jdbcType=VARCHAR},
+      patch_desc = #{patchDesc,jdbcType=VARCHAR},
+      patch_url = #{patchUrl,jdbcType=VARCHAR},
+      patch_size = #{patchSize,jdbcType=INTEGER},
+      patch_version = #{patchVersion,jdbcType=INTEGER},
+      device_type = #{deviceType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      white_status = #{whiteStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+      white_content = #{whiteContent,jdbcType=VARCHAR},
+      valid_status = #{validStatus,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="pageList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select * from game_patch
+    where   1=1
+        <if test="gameId != -1">
+            and game_id = #{gameId}
+        </if>
+        <if test="siteId != -1">
+            and site_id = #{siteId}
+        </if>
+    order by id desc
+    limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+  </select>
+
+    <select id="totalCount" resultType="int" parameterType="java.util.Map">
+        select count(*) from game_patch
+        WHERE 1=1
+        <if test="gameId != -1">
+            and game_id = #{gameId}
+        </if>
+        <if test="siteId != -1">
+            and site_id = #{siteId}
+        </if>
+    </select>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+
+
+
+		    delete from game_patch where id = #{id}
+
+
+
+        ]]>
+    </delete>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="int">
+        <![CDATA[
+
+
+
+		   select * from game_patch where id = #{id}
+
+
+
+        ]]>
+    </select>
+
+
+</mapper>

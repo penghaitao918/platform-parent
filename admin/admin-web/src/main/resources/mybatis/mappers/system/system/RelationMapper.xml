@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.admin.system.dao.RelationMapper">
+
+    <resultMap type="com.fanfandou.admin.system.entity.Relation" id="relationMapper">
+        <id property="id" column="id"/>
+        <result property="id1" column="id1"/>
+        <result property="id2" column="id2"/>
+        <result property="type" column="relation_type"/>
+    </resultMap>
+
+
+    <select id="selectAll" resultMap="relationMapper">
+		<![CDATA[
+                select * from sys_relation
+        ]]>
+	</select>
+
+    <select id="selectId" parameterType="com.fanfandou.admin.system.entity.Relation" resultType="int">
+       <![CDATA[
+        select id from sys_relation where id1=#{id1,jdbcType=INTEGER} and id2=#{id2,jdbcType=INTEGER}
+        and relation_type=#{type,jdbcType=INTEGER}
+        ]]>
+    </select>
+
+    <select id="selectIdBy" parameterType="java.util.Map" resultType="int">
+        <![CDATA[
+        select id2 from sys_relation where id1=#{id1,jdbcType=INTEGER} and relation_type=#{typeId,jdbcType=INTEGER}
+        ]]>
+    </select>
+
+    <delete id="delete" parameterType="int">
+		<![CDATA[
+		    delete from sys_relation where id = #{id}
+        ]]>
+	</delete>
+
+    <select id="selectById" resultMap="relationMapper" parameterType="int">
+		<![CDATA[
+		   select * from sys_relation where id in (#{id})
+        ]]>
+	</select>
+
+    <insert id="insert" parameterType="com.fanfandou.admin.system.entity.Relation" useGeneratedKeys="true" keyProperty="id">
+	    <![CDATA[
+	     INSERT INTO sys_relation (id1,id2,relation_type) VALUES (
+		#{id1},
+		#{id2},
+		#{type}
+	)
+        ]]>
+	</insert>
+
+    <update id="update" parameterType="com.fanfandou.admin.system.entity.Relation">
+         <![CDATA[
+        UPDATE sys_relation SET
+            id1 = #{id1},
+            id2 = #{id2},
+            relation_type = #{type}
+        WHERE
+            id = #{id,jdbcType=INTEGER}
+        ]]>
+	</update>
+
+</mapper>

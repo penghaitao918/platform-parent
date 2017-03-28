@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.platform.serv.game.dao.AreaGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.fanfandou.platform.api.game.entity.AreaGroup" >
+    <id column="group_id" property="id" jdbcType="INTEGER" />
+    <result column="game_id" property="gameId" jdbcType="INTEGER" />
+    <result column="area_group_code" property="areaGroupCode" jdbcType="VARCHAR" />
+    <result column="area_group_name" property="areaGroupName" jdbcType="VARCHAR" />
+    <result column="area_group_desc" property="areaGroupDesc" jdbcType="VARCHAR" />
+    <result column="display_order" property="displayOrder" jdbcType="INTEGER" />
+    <result column="group_client_enter_addr" property="clientEnterAddr" jdbcType="VARCHAR" />
+    <result column="group_server_enter_addr" property="serverEnterAddr" jdbcType="VARCHAR" />
+    <result column="group_create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapNormal" type="com.fanfandou.platform.api.game.entity.AreaGroup" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="game_id" property="gameId" jdbcType="INTEGER" />
+    <result column="area_group_code" property="areaGroupCode" jdbcType="VARCHAR" />
+    <result column="area_group_name" property="areaGroupName" jdbcType="VARCHAR" />
+    <result column="area_group_desc" property="areaGroupDesc" jdbcType="VARCHAR" />
+    <result column="display_order" property="displayOrder" jdbcType="INTEGER" />
+    <result column="client_enter_addr" property="clientEnterAddr" jdbcType="VARCHAR" />
+    <result column="server_enter_addr" property="serverEnterAddr" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, game_id, area_group_code, area_group_name, area_group_desc, display_order, client_enter_addr, 
+    server_enter_addr, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMapNormal" parameterType="com.fanfandou.platform.api.game.entity.AreaGroupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from area_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="getAreaGroupByGameId" resultMap="BaseResultMapNormal" parameterType="java.lang.Integer">
+    SELECT * FROM area_group WHERE game_id = #{gameId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getAreaGroupPage" resultMap="BaseResultMapNormal" parameterType="map">
+    SELECT * FROM area_group WHERE 1 = 1
+    <if test="gameId != -1" >
+      AND game_id = #{gameId,jdbcType=INTEGER}
+    </if>
+    <if test="order != null" >
+      order by #{order,jdbcType=VARCHAR} #{sort,jdbcType=VARCHAR}
+    </if>
+     limit #{startNum,jdbcType=INTEGER},#{endNum,jdbcType=INTEGER}
+  </select>
+
+  <select id="checkCodeExist" resultType="int" parameterType="map">
+    SELECT count(*) FROM area_group WHERE area_group_code = #{areaGroupCode,jdbcType=VARCHAR} and game_id = #{gameId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getAreaGroupSize" resultType="int" parameterType="map">
+    SELECT count(*) FROM area_group WHERE 1 = 1
+    <if test="gameId != null" >
+      AND game_id = #{gameId,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="getAreaGroup" resultMap="BaseResultMapNormal">
+    SELECT * FROM area_group
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMapNormal" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from area_group
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from area_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fanfandou.platform.api.game.entity.AreaGroup" >
+    insert into area_group (id, game_id, area_group_code, 
+      area_group_name, area_group_desc, display_order, 
+      client_enter_addr, server_enter_addr, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{gameId,jdbcType=INTEGER}, #{areaGroupCode,jdbcType=VARCHAR}, 
+      #{areaGroupName,jdbcType=VARCHAR}, #{areaGroupDesc,jdbcType=VARCHAR}, #{displayOrder,jdbcType=INTEGER}, 
+      #{clientEnterAddr,jdbcType=VARCHAR}, #{serverEnterAddr,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fanfandou.platform.api.game.entity.AreaGroup" >
+    insert into area_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="gameId != null" >
+        game_id,
+      </if>
+      <if test="areaGroupCode != null" >
+        area_group_code,
+      </if>
+      <if test="areaGroupName != null" >
+        area_group_name,
+      </if>
+      <if test="areaGroupDesc != null" >
+        area_group_desc,
+      </if>
+      <if test="displayOrder != null" >
+        display_order,
+      </if>
+      <if test="clientEnterAddr != null" >
+        client_enter_addr,
+      </if>
+      <if test="serverEnterAddr != null" >
+        server_enter_addr,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="gameId != null" >
+        #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="areaGroupCode != null" >
+        #{areaGroupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaGroupName != null" >
+        #{areaGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaGroupDesc != null" >
+        #{areaGroupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="displayOrder != null" >
+        #{displayOrder,jdbcType=INTEGER},
+      </if>
+      <if test="clientEnterAddr != null" >
+        #{clientEnterAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="serverEnterAddr != null" >
+        #{serverEnterAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fanfandou.platform.api.game.entity.AreaGroupExample" resultType="java.lang.Integer" >
+    select count(*) from area_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update area_group
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.gameId != null" >
+        game_id = #{record.gameId,jdbcType=INTEGER},
+      </if>
+      <if test="record.areaGroupCode != null" >
+        area_group_code = #{record.areaGroupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaGroupName != null" >
+        area_group_name = #{record.areaGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaGroupDesc != null" >
+        area_group_desc = #{record.areaGroupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.displayOrder != null" >
+        display_order = #{record.displayOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.clientEnterAddr != null" >
+        client_enter_addr = #{record.clientEnterAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serverEnterAddr != null" >
+        server_enter_addr = #{record.serverEnterAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update area_group
+    set id = #{record.id,jdbcType=INTEGER},
+      game_id = #{record.gameId,jdbcType=INTEGER},
+      area_group_code = #{record.areaGroupCode,jdbcType=VARCHAR},
+      area_group_name = #{record.areaGroupName,jdbcType=VARCHAR},
+      area_group_desc = #{record.areaGroupDesc,jdbcType=VARCHAR},
+      display_order = #{record.displayOrder,jdbcType=INTEGER},
+      client_enter_addr = #{record.clientEnterAddr,jdbcType=VARCHAR},
+      server_enter_addr = #{record.serverEnterAddr,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fanfandou.platform.api.game.entity.AreaGroup" >
+    update area_group
+    <set >
+      <if test="gameId != null" >
+        game_id = #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="areaGroupCode != null" >
+        area_group_code = #{areaGroupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaGroupName != null" >
+        area_group_name = #{areaGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaGroupDesc != null" >
+        area_group_desc = #{areaGroupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="displayOrder != null" >
+        display_order = #{displayOrder,jdbcType=INTEGER},
+      </if>
+      <if test="clientEnterAddr != null" >
+        client_enter_addr = #{clientEnterAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="serverEnterAddr != null" >
+        server_enter_addr = #{serverEnterAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fanfandou.platform.api.game.entity.AreaGroup" >
+    update area_group
+    set game_id = #{gameId,jdbcType=INTEGER},
+      area_group_code = #{areaGroupCode,jdbcType=VARCHAR},
+      area_group_name = #{areaGroupName,jdbcType=VARCHAR},
+      area_group_desc = #{areaGroupDesc,jdbcType=VARCHAR},
+      display_order = #{displayOrder,jdbcType=INTEGER},
+      client_enter_addr = #{clientEnterAddr,jdbcType=VARCHAR},
+      server_enter_addr = #{serverEnterAddr,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

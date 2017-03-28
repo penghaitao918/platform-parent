@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="activity-service" owner="platform"/>
+    <dubbo:protocol name="dubbo" port="20883"/>
+    <dubbo:monitor protocol="registry"/>
+
+    <dubbo:service interface="com.fanfandou.platform.api.activity.service.GameActivityService" ref="gameActivityService"
+                   timeout="30000"/>
+    <dubbo:service interface="com.fanfandou.platform.api.activity.service.PromoteAwardPackageService" ref="promoteAwardPackageService"
+                   timeout="30000"/>
+    <dubbo:service interface="com.fanfandou.platform.api.activity.service.PromoteCodeBatchService" ref="promoteCodeBatchService"
+                   timeout="30000"/>
+    <dubbo:service interface="com.fanfandou.platform.api.activity.service.PromoteCodeService" ref="promoteCodeService"
+                   timeout="30000"/>
+
+    <dubbo:reference interface="com.fanfandou.platform.api.game.service.OperationDispatchService"
+                     id="operationDispatchService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.admin.api.system.service.DataDictionaryService" id="dataDictionaryService"
+                     check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.game.service.GameAreaService" id="gameAreaService"/>
+</beans>

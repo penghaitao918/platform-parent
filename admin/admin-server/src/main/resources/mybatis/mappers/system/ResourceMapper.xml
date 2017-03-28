@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.admin.server.system.dao.ResourceMapper">
+
+
+    <resultMap type="com.fanfandou.admin.api.system.entity.Resource" id="resourceMapper">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="resCode" column="res_code"/>
+        <result property="available" column="available"/>
+        <result property="url" column="url"/>
+        <result property="resType" column="res_type" typeHandler="com.fanfandou.common.handler.EnumStatusHandler"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="resourceMapper">
+		<![CDATA[
+
+                select * from sys_resource
+
+        ]]>
+	</select>
+
+    <insert id="isInsert" parameterType="com.fanfandou.admin.api.system.entity.Resource" keyProperty="id">
+		<![CDATA[
+		INSERT INTO sys_resource(res_code,url,res_type,create_time,available) VALUES (
+			#{resCode},
+			#{url},
+			#{resType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+			#{createTime},
+		    #{available}
+		)
+        ]]>
+    </insert>
+
+
+    <select id="selectById" resultMap="resourceMapper" parameterType="int">
+		<![CDATA[
+
+		   select * from sys_resource where id = #{id}
+
+        ]]>
+	</select>
+
+    <select id="delGame" parameterType="int">
+        <![CDATA[
+
+	delete from sys_resource where id=#{id}
+        ]]>
+	</select>
+
+    <select id="updateGame" parameterType="com.fanfandou.admin.api.system.entity.Resource">
+        <![CDATA[
+
+    UPDATE sys_resource SET
+    res_code=#{resCode},
+    url=#{url},
+    res_type=#{resType,jdbcType=TINYINT,typeHandler=com.fanfandou.common.handler.EnumStatusHandler},
+    available= #{available}
+    WHERE
+    id =#{id,jdbcType=INTEGER}
+
+        ]]>
+    </select>
+
+    <select id="getResByType" parameterType="int" resultMap="resourceMapper">
+       <![CDATA[
+
+                select * from sys_resource WHERE res_type=#{0} AND available=1
+
+        ]]>
+
+    </select>
+
+    <select id="selByIdAndType"  resultMap="resourceMapper" parameterType="java.util.Map">
+        <![CDATA[
+        SELECT * from sys_resource where id=#{resId} and res_type = #{resType}
+		    ]]>
+    </select>
+
+
+    <select id="pageList"  resultMap="resourceMapper" parameterType="java.util.Map">
+        <![CDATA[
+		   select * from sys_resource where res_code LIKE #{resCode,jdbcType=VARCHAR} and res_code is NOT null order by #{str1,jdbcType=VARCHAR} #{str2,jdbcType=VARCHAR} limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+		    ]]>
+    </select>
+
+    <select id="totalCount"  resultType="int" >
+        <![CDATA[
+		   select count(*) from sys_resource
+		    ]]>
+    </select>
+
+</mapper>

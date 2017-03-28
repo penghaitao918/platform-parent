@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.admin.operation.dao.MailOrderTaskMapper">
+
+	<resultMap type="com.fanfandou.admin.operation.entity.MailOrderTask" id="mailOrderTaskMapper">
+		<id property="id" column="id"/>
+		<result property="gameId" column="game_id"/>
+		<result property="areaIds" column="area_ids"/>
+		<result property="roleIds" column="role_ids"/>
+		<result property="sendStatus" column="send_status"/>
+		<result property="failedReason" column="failed_reason"/>
+		<result property="mailTitle" column="mail_title"/>
+		<result property="mailContent" column="mail_content"/>
+		<result property="itemJson" column="item_json" jdbcType="VARCHAR"/>
+		<result property="createTime" column="create_time"/>
+		<result property="mailOrderId" column="mail_order_id"/>
+		<result property="sendCount" column="send_count"/>
+	</resultMap>
+
+	<select id="selectAll"  resultMap="mailOrderTaskMapper" >
+		<![CDATA[
+                select * from game_mail_order_task
+                 ]]>
+	</select>
+
+	<select id="selectNotSend"  resultMap="mailOrderTaskMapper" >
+		<![CDATA[
+                select * from game_mail_order_task where send_status = 1
+                 ]]>
+	</select>
+
+	<select id="selFailedReason"  resultMap="mailOrderTaskMapper" >
+		<![CDATA[
+                select failed_reason from game_mail_order_task where mail_order_id = #{mailOrderId}
+                 ]]>
+	</select>
+
+	<delete id="delete" parameterType="int">
+		<![CDATA[
+		    delete from game_mail_order_task where id = #{id}
+		     ]]>
+	</delete>
+
+	<select id="selectById"  resultMap="mailOrderTaskMapper" parameterType="int">
+		<![CDATA[
+		   select * from game_mail_order_task where id = #{id}
+		    ]]>
+	</select>
+
+	<insert id="insert" parameterType="com.fanfandou.admin.operation.entity.MailOrderTask" useGeneratedKeys="true" keyProperty="id">
+	    <![CDATA[
+	     INSERT INTO game_mail_order_task (game_id,area_ids,role_ids,send_status,failed_reason,mail_title,
+	     mail_content,item_json,create_time,mail_order_id,send_count) VALUES (
+	        #{gameId,jdbcType=INTEGER},
+            #{areaIds,jdbcType=VARCHAR},
+            #{roleIds,jdbcType=VARCHAR},
+            #{sendStatus,jdbcType=INTEGER},
+            #{failedReason},
+            #{mailTitle},
+            #{mailContent},
+            #{itemJson,jdbcType=VARCHAR},
+            #{createTime},
+            #{mailOrderId},
+            #{sendCount,jdbcType=INTEGER}
+	)
+	 ]]>
+	</insert>
+
+	<update id="update" parameterType="com.fanfandou.admin.operation.entity.MailOrderTask">
+
+         <![CDATA[
+        UPDATE game_mail_order_task SET
+            game_id = #{gameId},
+            area_ids = #{areaIds},
+            role_ids = #{roleIds},
+            send_status = #{sendStatus},
+            failed_reason = #{failedReason},
+            mail_title = #{mailTitle},
+            mail_content = #{mailContent},
+            item_json = #{itemJson},
+            create_time = #{createTime},
+            mail_order_id = #{mailOrderId},
+            send_count=#{sendCount}
+        WHERE
+            id = #{id,jdbcType=INTEGER}
+ ]]>
+	</update>
+
+</mapper>

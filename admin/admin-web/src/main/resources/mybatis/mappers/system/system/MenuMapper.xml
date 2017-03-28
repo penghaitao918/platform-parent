@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.admin.system.dao.MenuMapper">
+
+
+    <resultMap type="com.fanfandou.admin.system.entity.Menu" id="menuMapper">
+        <id property="id" column="id"/>
+        <result property="menuName" column="menu_name"/>
+        <result property="isParent" column="is_parent"/>
+        <result property="url" column="url"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="available" column="available"/>
+        <result property="showOrder" column="show_order"/>
+        <result property="menuIcon" column="menu_icon"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="menuMapper">
+		select * from sys_menu order by show_order DESC
+	</select>
+
+    <select id="getParentMenu" resultMap="menuMapper">
+		select * from sys_menu WHERE parent_id = 0;
+	</select>
+
+    <select id="selById" resultMap="menuMapper" parameterType="int">
+		select * from sys_menu where id=#{id}
+	</select>
+
+    <update id="update" parameterType="com.fanfandou.admin.system.entity.Menu">
+		update sys_menu set
+		menu_name = #{menuName},
+		is_parent = #{isParent},
+		url = #{url},
+		parent_id = #{parentId},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		available = #{available},
+		show_order = #{showOrder},
+		menu_icon = #{menuIcon}
+		where id = #{id}
+	</update>
+
+    <insert id="insert" parameterType="com.fanfandou.admin.system.entity.Menu">
+		insert into sys_menu (menu_name,is_parent,url,parent_id,create_time,available,show_order,menu_icon)
+		values(#{menuName},#{isParent},#{url},#{parentId},#{createTime,jdbcType=TIMESTAMP},#{available},#{showOrder},#{menuIcon})
+	</insert>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+		delete from sys_menu where id = #{id}
+	</delete>
+
+
+    <select id="pageList" resultMap="menuMapper" parameterType="java.util.Map">
+		<![CDATA[
+
+           select * from sys_menu
+		   where menu_name LIKE #{menuName,jdbcType=VARCHAR}
+		   order by ${str1} ${str2}
+		   limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+
+        ]]>
+	</select>
+
+    <select id="totalCount" resultType="int">
+		<![CDATA[
+
+		   select count(*) from sys_menu
+		   where menu_name LIKE #{menuName,jdbcType=VARCHAR}
+
+        ]]>
+	</select>
+
+    <select id="totalCountById" resultType="int">
+		<![CDATA[
+
+		   select count(*) from sys_menu
+		   where  parent_id=#{parentId,jdbcType=INTEGER}
+
+        ]]>
+	</select>
+
+
+    <select id="childrenIdList" resultType="int" parameterType="java.lang.Integer">
+		<![CDATA[
+
+		   select id from sys_menu where parent_id=#{parentId,jdbcType=INTEGER}
+
+        ]]>
+	</select>
+
+    <select id="pageListBypId" resultMap="menuMapper" parameterType="java.util.Map">
+		<![CDATA[
+
+           select * from sys_menu
+		   where parent_id=#{parentId,jdbcType=INTEGER}
+		   order by ${str1} ${str2}
+		   limit #{num1,jdbcType=INTEGER},#{num2,jdbcType=INTEGER}
+
+        ]]>
+	</select>
+
+	<select id="selByName" resultMap="menuMapper">
+		select * from sys_menu where menu_name=#{menuName,jdbcType=VARCHAR}
+	</select>
+</mapper>

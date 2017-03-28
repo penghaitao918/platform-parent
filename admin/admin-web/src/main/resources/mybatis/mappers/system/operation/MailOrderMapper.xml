@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fanfandou.admin.operation.dao.MailOrderMapper">
+
+	<resultMap type="com.fanfandou.admin.operation.entity.MailOrder" id="mailOrderMapper">
+		<id property="id" column="id"/>
+		<result property="gameId" column="game_id"/>
+		<result property="areaIds" column="area_ids"/>
+		<result property="sendByValue" column="send_by_value"/>
+		<result property="sendType" column="send_type"/>
+		<result property="sendByType" column="send_by_type"/>
+		<result property="sendStatus" column="send_status"/>
+		<result property="mailType" column="mail_type"/>
+		<result property="mailTitle" column="mail_title"/>
+		<result property="mailContent" column="mail_content"/>
+		<result property="applyReason" column="apply_reason"/>
+		<result property="createTime" column="create_time"/>
+		<!--<result property="items" column="items" javaType="com.fanfandou.platform.billing.entity.GoodsItem"/>-->
+		<result property="itemJson" column="item_json" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<select id="selectAll"  resultMap="mailOrderMapper" >
+		<![CDATA[
+                select * from game_mail_order
+                 ]]>
+	</select>
+
+	<delete id="delete" parameterType="int">
+		<![CDATA[
+		    delete from game_mail_order where id = #{id}
+		     ]]>
+	</delete>
+
+	<select id="selectById"  resultMap="mailOrderMapper" parameterType="int">
+		<![CDATA[
+		   select * from game_mail_order where id = #{id}
+		    ]]>
+	</select>
+
+	<insert id="insert" parameterType="com.fanfandou.admin.operation.entity.MailOrder" useGeneratedKeys="true" keyProperty="id">
+	    <![CDATA[
+	     INSERT INTO game_mail_order (game_id,area_ids,send_by_value,send_type,send_by_type,send_status,mail_type,mail_title,
+	     mail_content,apply_reason,create_time,item_json) VALUES (
+	        #{gameId},
+            #{areaIds},
+            #{sendByValue},
+            #{sendType},
+            #{sendByType},
+            #{sendStatus},
+            #{mailType},
+            #{mailTitle},
+            #{mailContent},
+            #{applyReason},
+            #{createTime},
+            #{itemJson,jdbcType=VARCHAR}
+	)
+	 ]]>
+	</insert>
+
+	<update id="update" parameterType="com.fanfandou.admin.operation.entity.MailOrder">
+
+         <![CDATA[
+        UPDATE game_mail_order SET
+            game_id = #{gameId},
+            area_ids = #{areaIds},
+            send_by_value = #{sendByValue},
+            send_type = #{sendType},
+            send_by_type = #{sendByType},
+            send_status = #{sendStatus},
+            mail_type = #{mailType},
+            mail_title = #{mailTitle},
+            mail_content = #{mailContent},
+            apply_reason = #{applyReason},
+            create_time = #{createTime},
+            item_json = #{itemJson}
+        WHERE
+            id = #{id,jdbcType=INTEGER}
+ ]]>
+	</update>
+
+</mapper>

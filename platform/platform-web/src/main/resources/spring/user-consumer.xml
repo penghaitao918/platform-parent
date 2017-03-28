@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="platform-web" owner="platform"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.user.service.AccountService" id="accountService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.user.service.ProfileService" id="profileService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.user.service.TokenService" id="tokenService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.user.service.UserService" id="userService" check="false"/>
+
+    <dubbo:reference interface="com.fanfandou.platform.api.game.service.GameAreaService" id="gameAreaService"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.game.service.GameToyService" id="gameToyService"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.game.service.GameRoleService" id="gameRoleService"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.game.service.OperationDispatchService" id="operationDispatchService" />
+    <dubbo:reference interface="com.fanfandou.admin.api.operation.service.NoticeService" id="noticeService" check="false"/>
+
+    <dubbo:reference interface="com.fanfandou.platform.api.billing.service.BillingService" id="billingService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.billing.service.GoodsService" id="goodsService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.billing.service.WalletSerivce" id="walletSerivce" check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.billing.service.OrderService" id="orderService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.admin.api.system.service.DataDictionaryService" id="dataDictionaryService" check="false"/>
+
+    <dubbo:reference interface="com.fanfandou.platform.api.activity.service.GameActivityService" id="gameActivityService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.platform.api.activity.service.PromoteCodeBatchService" id="promoteCodeBatchService" check="false"/>
+    <dubbo:reference interface="com.fanfandou.admin.api.operation.service.PatchService" id="patchService" check="false"/>
+
+</beans>
